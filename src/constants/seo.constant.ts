@@ -1,7 +1,7 @@
 import { APP_CONFIG } from './app.constant'
 
 export const SEO = {
-  name: 'БУКМЕЙКЕРСКАЯ КОНТОРА ЦЫГАНОВ.НЕТ',
+  name: 'ЦЫГАНОВ.НЕТ',
   description:
     'Самая худшая контора, без вывода денег, с коэффициентами ниже 1, у нас вы точно проиграете',
   url: APP_CONFIG.baseUrl,

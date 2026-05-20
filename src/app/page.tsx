@@ -1,10 +1,5 @@
-import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+import { WelcomePage } from '@/components/shared/welcome-page'
 
 export default function Home() {
-  return (
-    <div>
-      <Button>Button</Button>
-    </div>
-  )
+  return <WelcomePage />
 }

@@ -14,7 +14,7 @@
   "rtl": false,
   "aliases": {
     "components": "@/components",
-    "utils": "@/libs/utils",
+    "utils": "@/libs/tw-merge",
     "ui": "@/components/ui",
     "lib": "@/libs",
     "hooks": "@/hooks"
