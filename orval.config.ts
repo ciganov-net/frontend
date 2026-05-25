@@ -5,7 +5,14 @@ export default defineConfig({
     input: 'http://localhost:3000/openapi.yaml',
     output: {
       schemas: './src/api/generated',
-      target: './src/api/generated/client.ts'
+      target: './src/api/generated/client.ts',
+      client: 'axios',
+      override: {
+        mutator: {
+          path: './src/api/instance.ts',
+          name: 'customInstance'
+        }
+      }
     }
   }
 })

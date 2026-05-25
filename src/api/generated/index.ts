@@ -12,4 +12,6 @@ export * from './healthResponse';
 export * from './initEmailChangeRequest';
 export * from './patchUserRequest';
 export * from './sendOtpRequest';
+export * from './sendOtpResponse';
 export * from './verifyOtpRequest';
+export * from './verifyOtpResponse';

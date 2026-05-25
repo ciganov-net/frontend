@@ -1,9 +1,12 @@
 import { APP_CONFIG } from '@/constants/app.constant'
-import { getSessionToken } from '@/libs/cookies'
-import axios, { CreateAxiosDefaults } from 'axios'
+import axios, {
+  AxiosRequestConfig,
+  AxiosResponse,
+  CreateAxiosDefaults
+} from 'axios'
 
 const options: CreateAxiosDefaults = {
-  baseURL: APP_CONFIG.baseUrl,
+  baseURL: APP_CONFIG.apiUrl,
   headers: {
     'Content-Type': 'application/json'
   },
@@ -11,14 +14,14 @@ const options: CreateAxiosDefaults = {
 }
 
 const api = axios.create(options)
-const instance = axios.create(options)
+export { api }
 
-instance.interceptors.request.use(config => {
-  const sessionToken = getSessionToken()
-  if (config.headers && sessionToken) {
-    config.headers['X-Session-Token'] = sessionToken
-  }
-  return config
-})
-
-export { api, instance }
+export function customInstance<T>(
+  config: AxiosRequestConfig,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<T>> {
+  return api({
+    ...config,
+    ...options
+  })
+}

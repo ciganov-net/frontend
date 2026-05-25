@@ -5,12 +5,6 @@
  * Insane betting service with best odds
  * OpenAPI spec version: 1.0
  */
-import axios from 'axios';
-import type {
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
-
 import type {
   ConfirmEmailChangeRequest,
   GetMeResponse,
@@ -18,138 +12,160 @@ import type {
   InitEmailChangeRequest,
   PatchUserRequest,
   SendOtpRequest,
-  VerifyOtpRequest
+  SendOtpResponse,
+  VerifyOtpRequest,
+  VerifyOtpResponse
 } from './.';
 
+import { customInstance } from '../instance';
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
+  export const getCiganovNet = () => {
 /**
  * Checks if the gateway is running
  * @summary Health check
  */
-export const appControllerHealth = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<HealthResponse>> => {
-    return axios.get(
-      `/health`,options
-    );
-  }
+const appControllerHealth = (
 
-export const prometheusControllerIndex = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.get(
-      `/metrics`,options
-    );
-  }
+ options?: SecondParameter<typeof customInstance<HealthResponse>>,) => {
+      return customInstance<HealthResponse>(
+      {url: `/health`, method: 'GET'
+    },
+      options);
+    }
+
+const prometheusControllerIndex = (
+
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/metrics`, method: 'GET'
+    },
+      options);
+    }
 
 /**
  * Sends a verification code to the user email
  * @summary Send otp code
  */
-export const authControllerSendOtp = (
-    sendOtpRequest: SendOtpRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.post(
-      `/auth/otp/send`,
-      sendOtpRequest,options
-    );
-  }
+const authControllerSendOtp = (
+    sendOtpRequest: SendOtpRequest,
+ options?: SecondParameter<typeof customInstance<SendOtpResponse>>,) => {
+      return customInstance<SendOtpResponse>(
+      {url: `/auth/otp/send`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: sendOtpRequest
+    },
+      options);
+    }
 
 /**
  * Verifies a verification code sent to the user email
  * @summary Verify otp code
  */
-export const authControllerVerifyOtp = (
-    verifyOtpRequest: VerifyOtpRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.post(
-      `/auth/otp/verify`,
-      verifyOtpRequest,options
-    );
-  }
+const authControllerVerifyOtp = (
+    verifyOtpRequest: VerifyOtpRequest,
+ options?: SecondParameter<typeof customInstance<VerifyOtpResponse>>,) => {
+      return customInstance<VerifyOtpResponse>(
+      {url: `/auth/otp/verify`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: verifyOtpRequest
+    },
+      options);
+    }
 
 /**
  * Refreshing session token to 30days from
  * @summary Refresh token
  */
-export const authControllerRefreshToken = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.post(
-      `/auth/tokens/refresh`,
-      undefined,options
-    );
-  }
+const authControllerRefreshToken = (
+
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/auth/tokens/refresh`, method: 'POST'
+    },
+      options);
+    }
 
 /**
  * Getting user session by token
  * @summary Get user session
  */
-export const authControllerGetUserSession = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.get(
-      `/auth/tokens/session`,options
-    );
-  }
+const authControllerGetUserSession = (
+
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/auth/tokens/session`, method: 'GET'
+    },
+      options);
+    }
 
 /**
  * Sends a confirmation code to a new email address
  * @summary Initialize email change
  */
-export const accountsControllerInitEmailChange = (
-    initEmailChangeRequest: InitEmailChangeRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.post(
-      `/accounts/email/init`,
-      initEmailChangeRequest,options
-    );
-  }
+const accountsControllerInitEmailChange = (
+    initEmailChangeRequest: InitEmailChangeRequest,
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/accounts/email/init`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: initEmailChangeRequest
+    },
+      options);
+    }
 
 /**
  * Verifies confirmation code and updates user email
  * @summary Confirm email change
  */
-export const accountsControllerConfirmEmailChange = (
-    confirmEmailChangeRequest: ConfirmEmailChangeRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<void>> => {
-    return axios.post(
-      `/accounts/email/confirm`,
-      confirmEmailChangeRequest,options
-    );
-  }
+const accountsControllerConfirmEmailChange = (
+    confirmEmailChangeRequest: ConfirmEmailChangeRequest,
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/accounts/email/confirm`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: confirmEmailChangeRequest
+    },
+      options);
+    }
 
 /**
  * Returns authenticated user profile data
  * @summary Get current user profile
  */
-export const usersControllerGetMe = (
-     options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetMeResponse>> => {
-    return axios.get(
-      `/users/@me`,options
-    );
-  }
+const usersControllerGetMe = (
+
+ options?: SecondParameter<typeof customInstance<GetMeResponse>>,) => {
+      return customInstance<GetMeResponse>(
+      {url: `/users/@me`, method: 'GET'
+    },
+      options);
+    }
 
 /**
  * Patching the user
  * @summary Patch the user
  */
-export const usersControllerPatchUser = (
-    patchUserRequest: PatchUserRequest, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<boolean>> => {
-    return axios.patch(
-      `/users/@me`,
-      patchUserRequest,options
-    );
-  }
+const usersControllerPatchUser = (
+    patchUserRequest: PatchUserRequest,
+ options?: SecondParameter<typeof customInstance<boolean>>,) => {
+      return customInstance<boolean>(
+      {url: `/users/@me`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: patchUserRequest
+    },
+      options);
+    }
 
-export type AppControllerHealthResult = AxiosResponse<HealthResponse>
-export type PrometheusControllerIndexResult = AxiosResponse<void>
-export type AuthControllerSendOtpResult = AxiosResponse<void>
-export type AuthControllerVerifyOtpResult = AxiosResponse<void>
-export type AuthControllerRefreshTokenResult = AxiosResponse<void>
-export type AuthControllerGetUserSessionResult = AxiosResponse<void>
-export type AccountsControllerInitEmailChangeResult = AxiosResponse<void>
-export type AccountsControllerConfirmEmailChangeResult = AxiosResponse<void>
-export type UsersControllerGetMeResult = AxiosResponse<GetMeResponse>
-export type UsersControllerPatchUserResult = AxiosResponse<boolean>
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser}};
+export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
+export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
+export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
+export type AuthControllerVerifyOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerVerifyOtp']>>>
+export type AuthControllerRefreshTokenResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerRefreshToken']>>>
+export type AuthControllerGetUserSessionResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerGetUserSession']>>>
+export type AccountsControllerInitEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerInitEmailChange']>>>
+export type AccountsControllerConfirmEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerConfirmEmailChange']>>>
+export type UsersControllerGetMeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetMe']>>>
+export type UsersControllerPatchUserResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerPatchUser']>>>
