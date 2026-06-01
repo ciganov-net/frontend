@@ -18,6 +18,7 @@ import {
   InputOTPSlot
 } from '@/components/ui/input-otp'
 import { ROUTES } from '@/constants/routes.constant'
+import { useAuth } from '@/hooks/useAuth'
 import { errorCatch } from '@/libs/error'
 import { LoginSchema, TypeLoginSchema } from '@/schemas/login.schema'
 import { useForm } from '@tanstack/react-form'
@@ -25,6 +26,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export const LoginPage = () => {
+  const { auth } = useAuth()
   const router = useRouter()
   const [step, setStep] = useState<'input' | 'code'>('input')
   const { refetch } = useGetMe({
@@ -67,8 +69,10 @@ export const LoginPage = () => {
     onSuccess: async data => {
       const user = await refetch()
 
-      if (!user?.data?.displayName) router.replace(ROUTES.AUTH.ONBOARDING)
-      else router.replace(ROUTES.DASHBOARD)
+      if (!user?.data?.displayName) {
+        auth()
+        router.replace(ROUTES.AUTH.ONBOARDING)
+      } else router.replace(ROUTES.DASHBOARD)
     },
     onError(error: any) {
       form.setFieldMeta('code', prev => ({

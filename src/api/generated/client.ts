@@ -6,13 +6,35 @@
  * OpenAPI spec version: 1.0
  */
 import type {
+  ActivatePromoRequest,
+  ActivatePromoResponse,
+  AddTransactionRequest,
+  AddTransactionResponse,
+  CategoryResponse,
   ConfirmEmailChangeRequest,
+  CreateCategoryRequest,
+  CreateCategoryResponse,
+  CreateEventRequest,
+  CreateEventResponse,
+  CreateOutcomeRequest,
+  CreateOutcomeResponse,
+  CreatePromoRequest,
+  CreatePromoResponse,
+  EventResponse,
+  FinishOddRequest,
+  GetBalanceResponse,
   GetMeResponse,
+  GetPromoCodesResponse,
+  GetTransactionsResponse,
   HealthResponse,
   InitEmailChangeRequest,
+  OutcomeResponse,
   PatchUserRequest,
+  PlaceBetRequest,
+  PlaceBetResponse,
   SendOtpRequest,
   SendOtpResponse,
+  SwitchEventStateResponse,
   VerifyOtpRequest,
   VerifyOtpResponse
 } from './.';
@@ -95,7 +117,33 @@ const authControllerGetUserSession = (
 
  options?: SecondParameter<typeof customInstance<void>>,) => {
       return customInstance<void>(
-      {url: `/auth/tokens/session`, method: 'GET'
+      {url: `/auth/tokens/sessions`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Revoke user session and logout
+ * @summary Revoke token
+ */
+const authControllerRevoke = (
+
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/auth/tokens/revoke`, method: 'POST'
+    },
+      options);
+    }
+
+/**
+ * Revoke all user session and logout
+ * @summary Revoke all tokens
+ */
+const authControllerRevokeAll = (
+
+ options?: SecondParameter<typeof customInstance<void>>,) => {
+      return customInstance<void>(
+      {url: `/auth/tokens/revoke-all`, method: 'POST'
     },
       options);
     }
@@ -158,14 +206,270 @@ const usersControllerPatchUser = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser}};
+/**
+ * Retrieving the user balance
+ * @summary User balance
+ */
+const balancesControllerGetBalance = (
+
+ options?: SecondParameter<typeof customInstance<GetBalanceResponse>>,) => {
+      return customInstance<GetBalanceResponse>(
+      {url: `/balances/balance`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Retrieving the user transactions
+ * @summary User transactions
+ */
+const balancesControllerGetTransactions = (
+
+ options?: SecondParameter<typeof customInstance<GetTransactionsResponse>>,) => {
+      return customInstance<GetTransactionsResponse>(
+      {url: `/balances/transaction`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Creating a new transaction for the user
+ * @summary Create transaction
+ */
+const balancesControllerAddTransactions = (
+    addTransactionRequest: AddTransactionRequest,
+ options?: SecondParameter<typeof customInstance<AddTransactionResponse>>,) => {
+      return customInstance<AddTransactionResponse>(
+      {url: `/balances/transaction`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: addTransactionRequest
+    },
+      options);
+    }
+
+/**
+ * Place a bet on a specific event
+ * @summary Place a bet
+ */
+const betsControllerPlaceBet = (
+    placeBetRequest: PlaceBetRequest,
+ options?: SecondParameter<typeof customInstance<PlaceBetResponse>>,) => {
+      return customInstance<PlaceBetResponse>(
+      {url: `/bets/place`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: placeBetRequest
+    },
+      options);
+    }
+
+/**
+ * Calculate the bid
+ * @summary Finished the bet
+ */
+const betsControllerFinishedOdd = (
+    finishOddRequest: FinishOddRequest,
+ options?: SecondParameter<typeof customInstance<boolean>>,) => {
+      return customInstance<boolean>(
+      {url: `/bets/finish-odd`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: finishOddRequest
+    },
+      options);
+    }
+
+/**
+ * Get all event categories
+ * @summary Get categories
+ */
+const oddsControllerGetCategories = (
+
+ options?: SecondParameter<typeof customInstance<CategoryResponse[]>>,) => {
+      return customInstance<CategoryResponse[]>(
+      {url: `/odds/categories`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Get event category by id
+ * @summary Get category
+ */
+const oddsControllerGetCategory = (
+    id: string,
+ options?: SecondParameter<typeof customInstance<CategoryResponse>>,) => {
+      return customInstance<CategoryResponse>(
+      {url: `/odds/category/${id}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Create event category
+ * @summary Create category
+ */
+const oddsControllerCreateCategory = (
+    createCategoryRequest: CreateCategoryRequest,
+ options?: SecondParameter<typeof customInstance<CreateCategoryResponse>>,) => {
+      return customInstance<CreateCategoryResponse>(
+      {url: `/odds/category`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createCategoryRequest
+    },
+      options);
+    }
+
+/**
+ * Create event
+ * @summary Create event
+ */
+const oddsControllerCreateEvent = (
+    createEventRequest: CreateEventRequest,
+ options?: SecondParameter<typeof customInstance<CreateEventResponse>>,) => {
+      return customInstance<CreateEventResponse>(
+      {url: `/odds/event`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createEventRequest
+    },
+      options);
+    }
+
+/**
+ * Get event by id
+ * @summary Get event
+ */
+const oddsControllerGetEvent = (
+    id: string,
+ options?: SecondParameter<typeof customInstance<EventResponse>>,) => {
+      return customInstance<EventResponse>(
+      {url: `/odds/event/${id}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Get events by category
+ * @summary Get events by category
+ */
+const oddsControllerGetEventsByCategory = (
+    id: string,
+ options?: SecondParameter<typeof customInstance<EventResponse[]>>,) => {
+      return customInstance<EventResponse[]>(
+      {url: `/odds/event/by-category/${id}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Switch event state to another
+ * @summary Switch event state
+ */
+const oddsControllerSwitchEventState = (
+    id: string,
+ options?: SecondParameter<typeof customInstance<SwitchEventStateResponse>>,) => {
+      return customInstance<SwitchEventStateResponse>(
+      {url: `/odds/event/switch/${id}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Create outcome
+ * @summary Create outcome
+ */
+const oddsControllerCreateOutcome = (
+    createOutcomeRequest: CreateOutcomeRequest,
+ options?: SecondParameter<typeof customInstance<CreateOutcomeResponse>>,) => {
+      return customInstance<CreateOutcomeResponse>(
+      {url: `/odds/outcome`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createOutcomeRequest
+    },
+      options);
+    }
+
+/**
+ * Get outcomes by event id
+ * @summary Get outcomes by event
+ */
+const oddsControllerGetOutcomesByEventId = (
+    id: string,
+ options?: SecondParameter<typeof customInstance<OutcomeResponse[]>>,) => {
+      return customInstance<OutcomeResponse[]>(
+      {url: `/odds/outcome/by-event/${id}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Retrieving the list of promo codes
+ * @summary Get promo codes
+ */
+const bonusesControllerGetPromoCodes = (
+
+ options?: SecondParameter<typeof customInstance<GetPromoCodesResponse>>,) => {
+      return customInstance<GetPromoCodesResponse>(
+      {url: `/bonuses/all`, method: 'GET'
+    },
+      options);
+    }
+
+/**
+ * Activate promo code for the user
+ * @summary Activate promo code
+ */
+const bonusesControllerActivatePromo = (
+    activatePromoRequest: ActivatePromoRequest,
+ options?: SecondParameter<typeof customInstance<ActivatePromoResponse>>,) => {
+      return customInstance<ActivatePromoResponse>(
+      {url: `/bonuses/activate`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: activatePromoRequest
+    },
+      options);
+    }
+
+/**
+ * Create promo code
+ * @summary Create promo code
+ */
+const bonusesControllerCreate = (
+    createPromoRequest: CreatePromoRequest,
+ options?: SecondParameter<typeof customInstance<CreatePromoResponse>>,) => {
+      return customInstance<CreatePromoResponse>(
+      {url: `/bonuses/create`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createPromoRequest
+    },
+      options);
+    }
+
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
 export type AuthControllerVerifyOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerVerifyOtp']>>>
 export type AuthControllerRefreshTokenResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerRefreshToken']>>>
 export type AuthControllerGetUserSessionResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerGetUserSession']>>>
+export type AuthControllerRevokeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerRevoke']>>>
+export type AuthControllerRevokeAllResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerRevokeAll']>>>
 export type AccountsControllerInitEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerInitEmailChange']>>>
 export type AccountsControllerConfirmEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerConfirmEmailChange']>>>
 export type UsersControllerGetMeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetMe']>>>
 export type UsersControllerPatchUserResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerPatchUser']>>>
+export type BalancesControllerGetBalanceResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerGetBalance']>>>
+export type BalancesControllerGetTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerGetTransactions']>>>
+export type BalancesControllerAddTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerAddTransactions']>>>
+export type BetsControllerPlaceBetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerPlaceBet']>>>
+export type BetsControllerFinishedOddResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerFinishedOdd']>>>
+export type OddsControllerGetCategoriesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategories']>>>
+export type OddsControllerGetCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategory']>>>
+export type OddsControllerCreateCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerCreateCategory']>>>
+export type OddsControllerCreateEventResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerCreateEvent']>>>
+export type OddsControllerGetEventResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetEvent']>>>
+export type OddsControllerGetEventsByCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetEventsByCategory']>>>
+export type OddsControllerSwitchEventStateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerSwitchEventState']>>>
+export type OddsControllerCreateOutcomeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerCreateOutcome']>>>
+export type OddsControllerGetOutcomesByEventIdResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetOutcomesByEventId']>>>
+export type BonusesControllerGetPromoCodesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerGetPromoCodes']>>>
+export type BonusesControllerActivatePromoResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerActivatePromo']>>>
+export type BonusesControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerCreate']>>>

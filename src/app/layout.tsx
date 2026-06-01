@@ -6,6 +6,7 @@ import { SEO } from '@/constants/seo.constant'
 import { APP_CONFIG } from '@/constants/app.constant'
 import { TanstackProvider } from '@/providers/tanstack-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { HealthCheckProvider } from '@/providers/healthcheck-provider'
 
 if (!APP_CONFIG.baseUrl) throw new Error('APP_CONFIG.baseUrl should be defined')
 
@@ -58,7 +59,7 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         <TanstackProvider>
           <Toaster />
-          {children}
+          <HealthCheckProvider>{children}</HealthCheckProvider>
         </TanstackProvider>
       </body>
     </html>

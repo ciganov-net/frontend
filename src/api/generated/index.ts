@@ -6,12 +6,34 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './activatePromoRequest';
+export * from './activatePromoResponse';
+export * from './addTransactionRequest';
+export * from './addTransactionResponse';
+export * from './categoryResponse';
 export * from './confirmEmailChangeRequest';
+export * from './createCategoryRequest';
+export * from './createCategoryResponse';
+export * from './createEventRequest';
+export * from './createEventResponse';
+export * from './createOutcomeRequest';
+export * from './createOutcomeResponse';
+export * from './createPromoRequest';
+export * from './createPromoResponse';
+export * from './eventResponse';
+export * from './finishOddRequest';
+export * from './getBalanceResponse';
 export * from './getMeResponse';
+export * from './getPromoCodesResponse';
+export * from './getTransactionsResponse';
 export * from './healthResponse';
 export * from './initEmailChangeRequest';
+export * from './outcomeResponse';
 export * from './patchUserRequest';
+export * from './placeBetRequest';
+export * from './placeBetResponse';
 export * from './sendOtpRequest';
 export * from './sendOtpResponse';
+export * from './switchEventStateResponse';
 export * from './verifyOtpRequest';
 export * from './verifyOtpResponse';
