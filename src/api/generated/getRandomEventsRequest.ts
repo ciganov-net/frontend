@@ -6,10 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface OutcomeResponse {
-  id: string;
-  eventId: string;
-  name: string;
-  coefficient: number;
-  isActive: boolean;
+export interface GetRandomEventsRequest {
+  randomCount: number;
 }

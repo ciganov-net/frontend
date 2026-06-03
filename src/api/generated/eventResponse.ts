@@ -6,4 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface EventResponse { [key: string]: unknown }
+export interface EventResponse {
+  id: string;
+  name: string;
+  status: number;
+  categoryId: string;
+  start: string;
+  end: string;
+  isLive: boolean;
+  outcomes: string[];
+}

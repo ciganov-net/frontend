@@ -6,4 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CategoryResponse { [key: string]: unknown }
+export interface CategoryResponse {
+  id: string;
+  name: string;
+  slug: string;
+  isActive: boolean;
+}

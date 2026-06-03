@@ -5,5 +5,8 @@
  * Insane betting service with best odds
  * OpenAPI spec version: 1.0
  */
+import type { Balance } from './balance';
 
-export interface GetBalanceResponse { [key: string]: unknown }
+export interface GetBalanceResponse {
+  balance: Balance;
+}

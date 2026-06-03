@@ -6,10 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface OutcomeResponse {
+export interface Balance {
   id: string;
-  eventId: string;
-  name: string;
-  coefficient: number;
-  isActive: boolean;
+  mainBalance: number;
+  bonusBalance: number;
+  freezeBalance: number;
 }

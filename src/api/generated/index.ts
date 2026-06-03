@@ -10,6 +10,7 @@ export * from './activatePromoRequest';
 export * from './activatePromoResponse';
 export * from './addTransactionRequest';
 export * from './addTransactionResponse';
+export * from './balance';
 export * from './categoryResponse';
 export * from './confirmEmailChangeRequest';
 export * from './createCategoryRequest';
