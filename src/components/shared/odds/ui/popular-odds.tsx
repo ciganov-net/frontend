@@ -11,9 +11,14 @@ export const PopularOdds = ({ className }: Props) => {
   return (
     <div className={className}>
       <Label className='text-xl font-bold'>Популярное сегодня</Label>
-      <div className='flex flex-row gap-x-4 w-full'>
+      <div className='flex flex-row gap-x-4 my-4 w-full'>
         {events?.map(event => (
-          <Odd key={event.id} event={event} category={event.categoryId} />
+          <Odd
+            key={event.id}
+            event={event}
+            category={event.categoryId}
+            onSelectOutcome={() => {}}
+          />
         ))}
       </div>
     </div>

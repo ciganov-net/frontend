@@ -3,10 +3,10 @@ import { FreebetBanner } from '@/components/static/freebet-banner'
 import { Card } from '@/components/ui/card'
 import { Header } from '@/components/layout/header/ui/header'
 import { useGetCategories } from '@/api/hooks/useGetCategories'
-import { CategoryGroup } from '../categories/ui/category-group'
-import { PopularOdds } from '../odds/ui/popular-odds'
+import { CategoryGroup } from '../../categories/ui/category-group'
+import { PopularOdds } from '../../odds/ui/popular-odds'
 
-export const EventsPage = () => {
+export const Dashboard = () => {
   const { data: categories } = useGetCategories()
   return (
     <Card className='p-4'>
