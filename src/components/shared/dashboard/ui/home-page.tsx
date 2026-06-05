@@ -5,17 +5,21 @@ import { Header } from '@/components/layout/header/ui/header'
 import { useGetCategories } from '@/api/hooks/useGetCategories'
 import { CategoryGroup } from '../../categories/ui/category-group'
 import { PopularOdds } from '../../odds/ui/popular-odds'
+import { WorstPlayers } from './worst-players'
+import { BetSheet } from '../../odds/ui/bet-sheet'
 
 export const Dashboard = () => {
   const { data: categories } = useGetCategories()
   return (
-    <Card className='p-4'>
-      <Header />
-      <FreebetBanner />
-      <div className={'flex flex-row gap-x-4 w-full'}>
-        <CategoryGroup header='Категории' categories={categories ?? []} />
-      </div>
-      <PopularOdds />
-    </Card>
+    <>
+      <>
+        <FreebetBanner />
+        <div className={'mt-4 flex flex-row gap-x-4 w-full'}>
+          <CategoryGroup header='Категории' categories={categories ?? []} />
+        </div>
+        <PopularOdds />
+        <WorstPlayers />
+      </>
+    </>
   )
 }

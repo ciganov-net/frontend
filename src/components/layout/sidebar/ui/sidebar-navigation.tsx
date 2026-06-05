@@ -21,7 +21,7 @@ export const SidebarNavigation = () => {
     },
     {
       label: 'Краш',
-      href: '/minigames/crush',
+      href: '/crash',
       icon: Rocket
     },
     {

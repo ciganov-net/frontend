@@ -26,6 +26,7 @@ import type {
   GetMeResponse,
   GetPromoCodesResponse,
   GetTransactionsResponse,
+  GetWorstPlayersResponse,
   HealthResponse,
   InitEmailChangeRequest,
   OutcomeResponse,
@@ -202,6 +203,19 @@ const usersControllerPatchUser = (
       {url: `/users/@me`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: patchUserRequest
+    },
+      options);
+    }
+
+/**
+ * Returns the list of worst performing players
+ * @summary Get worst players
+ */
+const usersControllerGetWorstPlayers = (
+    count: number,
+ options?: SecondParameter<typeof customInstance<GetWorstPlayersResponse[]>>,) => {
+      return customInstance<GetWorstPlayersResponse[]>(
+      {url: `/users/worst-players/${count}`, method: 'GET'
     },
       options);
     }
@@ -456,7 +470,7 @@ const bonusesControllerCreate = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -469,6 +483,7 @@ export type AccountsControllerInitEmailChangeResult = NonNullable<Awaited<Return
 export type AccountsControllerConfirmEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerConfirmEmailChange']>>>
 export type UsersControllerGetMeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetMe']>>>
 export type UsersControllerPatchUserResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerPatchUser']>>>
+export type UsersControllerGetWorstPlayersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetWorstPlayers']>>>
 export type BalancesControllerGetBalanceResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerGetBalance']>>>
 export type BalancesControllerGetTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerGetTransactions']>>>
 export type BalancesControllerAddTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerAddTransactions']>>>
