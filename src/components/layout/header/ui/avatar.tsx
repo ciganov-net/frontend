@@ -1,6 +1,6 @@
 'use client'
 
-import { LogOutIcon } from 'lucide-react'
+import { LogIn, LogOutIcon } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -16,7 +16,7 @@ import { useGetBalance } from '@/api/hooks/useGetBalance'
 
 export function Profile() {
   const router = useRouter()
-  const { exit } = useAuth()
+  const { isAuthenticated, exit } = useAuth()
   const { data: user, isLoading: profileIsLoading } = useGetMe()
   const { data: balance, isLoading: balanceIsLoading } = useGetBalance({
     refetchInterval: 5000
@@ -37,7 +37,7 @@ export function Profile() {
   if (profileIsLoading || balanceIsLoading)
     return <Spinner className={'size-6 text-muted-foreground'} />
 
-  return (
+  return isAuthenticated ? (
     <div className='flex flex-row items-center gap-3'>
       <Avatar size='lg'>
         <AvatarImage
@@ -63,5 +63,10 @@ export function Profile() {
         <LogOutIcon />
       </Button>
     </div>
+  ) : (
+    <Button onClick={() => router.push(ROUTES.AUTH.LOGIN)}>
+      <LogIn />
+      Войти
+    </Button>
   )
 }

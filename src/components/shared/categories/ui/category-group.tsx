@@ -11,7 +11,7 @@ interface Props {
 export const CategoryGroup = ({ header, categories, className }: Props) => {
   return (
     <div className={className}>
-      <Label className='text-xl font-bold'>{header}</Label>
+      <Label className='text-lg font-bold'>{header}</Label>
       <div className='flex flex-row gap-x-4 w-full'>
         {categories.map(category => (
           <CategoryCard

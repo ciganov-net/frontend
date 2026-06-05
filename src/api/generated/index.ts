@@ -27,6 +27,7 @@ export * from './getBalanceResponse';
 export * from './getMeResponse';
 export * from './getPromoCodesResponse';
 export * from './getTransactionsResponse';
+export * from './getWorstPlayersResponse';
 export * from './healthResponse';
 export * from './initEmailChangeRequest';
 export * from './outcomeResponse';
