@@ -31,6 +31,8 @@ export * from './getTransactionsResponse';
 export * from './getWorstPlayersResponse';
 export * from './healthResponse';
 export * from './initEmailChangeRequest';
+export * from './oddsControllerGetEventsOrderBy';
+export * from './oddsControllerGetEventsParams';
 export * from './outcomeResponse';
 export * from './patchUserRequest';
 export * from './placeBetRequest';

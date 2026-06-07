@@ -3,13 +3,25 @@ import { OddCard } from './odd-card'
 import { useBet } from '@/hooks/useBet'
 import { useGetEvents } from '@/api/hooks/useGetEvents'
 import { LoadingPage } from '@/components/elements/loading-page'
+import { OddsControllerGetEventsOrderBy } from '@/api/generated'
+import { useEffect } from 'react'
+import { SelectedFilters } from '../../events/ui/filters'
 
 interface Props {
+  search: string
+  sortBy: OddsControllerGetEventsOrderBy
+  filters: SelectedFilters
   className?: string
 }
 
-export const Odds = ({ className }: Props) => {
-  const { data: events, isLoading } = useGetEvents()
+export const Odds = ({ className, search, sortBy, filters }: Props) => {
+  const { data: events, isLoading } = useGetEvents({
+    search,
+    orderBy: sortBy,
+    outcomeTypes: filters.outcomeTypes,
+    minCoefficient: filters.minCoefficient,
+    maxCoefficient: filters.maxCoefficient
+  })
   const { addBet } = useBet()
 
   if (isLoading) return <LoadingPage />
@@ -20,7 +32,6 @@ export const Odds = ({ className }: Props) => {
           <OddCard
             key={event.id}
             event={event}
-            category={event.categoryId}
             onSelectOutcome={(selectedEvent, outcome) => {
               addBet({
                 title: selectedEvent.name,

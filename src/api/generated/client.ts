@@ -30,6 +30,7 @@ import type {
   GetWorstPlayersResponse,
   HealthResponse,
   InitEmailChangeRequest,
+  OddsControllerGetEventsParams,
   OutcomeResponse,
   PatchUserRequest,
   PlaceBetRequest,
@@ -366,10 +367,11 @@ const oddsControllerCreateEvent = (
  * @summary Get events
  */
 const oddsControllerGetEvents = (
-
+    params?: OddsControllerGetEventsParams,
  options?: SecondParameter<typeof customInstance<EventResponse[]>>,) => {
       return customInstance<EventResponse[]>(
-      {url: `/odds/events`, method: 'GET'
+      {url: `/odds/events`, method: 'GET',
+        params
     },
       options);
     }

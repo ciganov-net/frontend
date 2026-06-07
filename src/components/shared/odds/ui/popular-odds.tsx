@@ -19,7 +19,6 @@ export const PopularOdds = ({ className }: Props) => {
           <OddCard
             key={event.id}
             event={event}
-            category={event.categoryId}
             onSelectOutcome={(selectedEvent, outcome) => {
               addBet({
                 title: selectedEvent.name,

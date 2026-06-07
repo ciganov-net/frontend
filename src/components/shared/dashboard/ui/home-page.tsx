@@ -15,7 +15,6 @@ export const Dashboard = () => {
   useEffect(() => {
     const updateCount = () => {
       const width = window.innerWidth
-      console.log(width)
       if (width < 768) {
         setCount(2)
       } else if (width < 1536) {

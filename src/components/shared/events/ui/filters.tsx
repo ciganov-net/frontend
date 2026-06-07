@@ -1,4 +1,6 @@
 'use client'
+import { useState } from 'react'
+import { OddsControllerGetEventsOrderBy } from '@/api/generated'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
@@ -17,28 +19,80 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import { FILTER_COMBOBOX, SHEET_FILTERS } from '@/constants/events.constant'
+import {
+  FILTER_COMBOBOX,
+  COEFFICIENT_FILTERS
+} from '@/constants/events.constant'
 import { Funnel } from 'lucide-react'
 
-interface Props {}
+export interface SelectedFilters {
+  outcomeTypes: string[]
+  minCoefficient?: number
+  maxCoefficient?: number
+}
 
-export const EventFilers = ({}: Props) => {
+interface Props {
+  orderBy?: OddsControllerGetEventsOrderBy
+  onSortChange: (value: OddsControllerGetEventsOrderBy) => void
+  onApplyFilters: (filters: SelectedFilters) => void
+  currentFilters: SelectedFilters
+}
+
+export const EventFilers = ({
+  onSortChange,
+  orderBy,
+  onApplyFilters,
+  currentFilters
+}: Props) => {
+  const [localOutcomes, setLocalOutcomes] = useState<string[]>(
+    currentFilters.outcomeTypes
+  )
+  const [localCoef, setLocalCoef] = useState<{ min?: number; max?: number }>({
+    min: currentFilters.minCoefficient,
+    max: currentFilters.maxCoefficient
+  })
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOutcomeChange = (value: string, checked: boolean) => {
+    setLocalOutcomes(prev =>
+      checked ? [...prev, value] : prev.filter(item => item !== value)
+    )
+  }
+
+  const handleCoefChange = (min?: number, max?: number) => {
+    setLocalCoef({ min, max })
+  }
+
+  const handleApply = () => {
+    onApplyFilters({
+      outcomeTypes: localOutcomes,
+      minCoefficient: localCoef.min,
+      maxCoefficient: localCoef.max
+    })
+    setIsOpen(false)
+  }
+
   return (
     <div className='flex flex-row justify-start items-center gap-4'>
-      <Select defaultValue={FILTER_COMBOBOX[0]}>
+      <Select
+        value={orderBy}
+        onValueChange={value =>
+          onSortChange(value as OddsControllerGetEventsOrderBy)
+        }
+      >
         <SelectTrigger className='w-72'>
-          <SelectValue placeholder='Фильтр' />
+          <SelectValue placeholder='Сортировка' />
         </SelectTrigger>
-
         <SelectContent>
           {FILTER_COMBOBOX.map(item => (
-            <SelectItem key={item} value={item}>
-              {item}
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
-      <Sheet>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button variant={'default'}>
             <Funnel />
@@ -53,44 +107,73 @@ export const EventFilers = ({}: Props) => {
             <SheetDescription></SheetDescription>
           </SheetHeader>
 
-          <div className='flex h-full flex-col'>
-            <div className='space-y-8'>
-              {Object.entries(SHEET_FILTERS).map(([title, options]) => (
-                <section key={title}>
-                  <Label className='mb-4 block text-xl font-semibold'>
-                    {title}
-                  </Label>
+          <div className='flex h-full flex-col justify-between pb-10'>
+            <div className='space-y-8 mt-4'>
+              {/* <section>
+                <Label className='mb-4 block text-xl font-semibold'>
+                  По исходам
+                </Label>
+                <div className='space-y-4'>
+                  {OUTCOME_TYPES_FILTERS.map(item => (
+                    <div
+                      key={item.value}
+                      className='flex items-center gap-3 text-lg'
+                    >
+                      <Checkbox
+                        id={`outcome-${item.value}`}
+                        checked={localOutcomes.includes(item.value)}
+                        onCheckedChange={checked =>
+                          handleOutcomeChange(item.value, !!checked)
+                        }
+                      />
+                      <Label
+                        htmlFor={`outcome-${item.value}`}
+                        className='cursor-pointer font-semibold'
+                      >
+                        {item.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </section> */}
 
-                  <div className='space-y-4'>
-                    {options.map(option => {
-                      const id = `${title}-${option}`
-                        .replace(/\s+/g, '-')
-                        .replace(/\//g, '')
-                        .toLowerCase()
-
-                      return (
-                        <div
-                          key={option}
-                          className='flex items-center gap-3 text-lg'
+              <section>
+                <Label className='mb-4 block text-xl font-semibold'>
+                  По коэффициенту
+                </Label>
+                <div className='space-y-4'>
+                  {COEFFICIENT_FILTERS.map((item, idx) => {
+                    const isChecked =
+                      localCoef.min === item.min && localCoef.max === item.max
+                    return (
+                      <div
+                        key={idx}
+                        className='flex items-center gap-3 text-lg'
+                      >
+                        <Checkbox
+                          id={`coef-${idx}`}
+                          checked={isChecked}
+                          onCheckedChange={() =>
+                            handleCoefChange(item.min, item.max)
+                          }
+                        />
+                        <Label
+                          htmlFor={`coef-${idx}`}
+                          className='cursor-pointer font-semibold'
                         >
-                          <Checkbox id={id} />
-
-                          <Label
-                            htmlFor={id}
-                            className='cursor-pointer font-semibold'
-                          >
-                            {option}
-                          </Label>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </section>
-              ))}
+                          {item.label}
+                        </Label>
+                      </div>
+                    )
+                  })}
+                </div>
+              </section>
             </div>
 
-            <div className='mt-auto pt-8'>
-              <Button className='h-12 w-full text-base'>Применить</Button>
+            <div className='pt-8'>
+              <Button onClick={handleApply} className='h-12 w-full text-base'>
+                Применить
+              </Button>
             </div>
           </div>
         </SheetContent>

@@ -14,11 +14,10 @@ import { Clock, Dot } from 'lucide-react'
 
 interface Props {
   event: EventResponse
-  category: string
   onSelectOutcome: (event: EventResponse, outcome: any) => void
 }
 
-export const OddCard = ({ event, category, onSelectOutcome }: Props) => {
+export const OddCard = ({ event, onSelectOutcome }: Props) => {
   const { removeBet, bets } = useBet()
   const { data: count, isLoading } = useGetBetCount(event.id)
   if (!event || isLoading) return <LoadingPage />
