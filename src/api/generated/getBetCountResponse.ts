@@ -6,10 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateCategoryRequest {
-  name: string;
-  slug: string;
-  description: string;
-  image: string;
-  badgeColor: string;
+export interface GetBetCountResponse {
+  count: number;
 }

@@ -2,6 +2,7 @@
 
 import { useGetHealthStatus } from '@/api/hooks/useHealth'
 import { EllipsisLoader } from '@/components/elements/elipsis-loader'
+import { LoadingPage } from '@/components/elements/loading-page'
 import { ConstructionIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 
@@ -15,12 +16,7 @@ export function HealthCheckProvider({ children }: HealthCheckProvider) {
     refetchOnWindowFocus: false
   })
 
-  if (isLoading)
-    return (
-      <div className='flex h-screen w-full items-center justify-center'>
-        <EllipsisLoader />
-      </div>
-    )
+  if (isLoading) return <LoadingPage />
 
   // if (isError || data?.status !== 'ok')
   //   return (

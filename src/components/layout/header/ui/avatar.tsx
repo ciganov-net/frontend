@@ -51,7 +51,10 @@ export function Profile() {
       <div className='flex flex-col'>
         <span className='font-semibold'>{user?.displayName}</span>
         <span className='text-sm font-medium'>
-          {balance?.balance?.mainBalance} ₽
+          Основной: {balance?.balance?.mainBalance} ₽
+        </span>
+        <span className='text-sm font-medium'>
+          Бонусный: {balance?.balance?.bonusBalance} ₽
         </span>
       </div>
       <Button
@@ -64,7 +67,7 @@ export function Profile() {
       </Button>
     </div>
   ) : (
-    <Button onClick={() => router.push(ROUTES.AUTH.LOGIN)}>
+    <Button variant={'outline'} onClick={() => router.push(ROUTES.AUTH.LOGIN)}>
       <LogIn />
       Войти
     </Button>

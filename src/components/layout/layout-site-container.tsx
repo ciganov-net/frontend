@@ -8,7 +8,7 @@ export const LayoutSiteContainer: React.FC<PropsWithChildren<unknown>> = ({
   children
 }) => {
   const pathname = usePathname()
-  if (pathname.includes('dashboard')) {
+  if (pathname.includes('dashboard') || pathname.includes('events')) {
     return (
       <div className='flex gap-4'>
         <main className='mt-5 ml-40 flex-1 p-4 bg-card rounded-3xl'>

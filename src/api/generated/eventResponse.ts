@@ -11,6 +11,8 @@ export interface EventResponse {
   name: string;
   status: number;
   categoryId: string;
+  categoryTitle: string;
+  badgeColor: string;
   start: string;
   end: string;
   isLive: boolean;

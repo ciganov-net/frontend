@@ -23,6 +23,7 @@ import type {
   EventResponse,
   FinishOddRequest,
   GetBalanceResponse,
+  GetBetCountResponse,
   GetMeResponse,
   GetPromoCodesResponse,
   GetTransactionsResponse,
@@ -277,6 +278,19 @@ const betsControllerPlaceBet = (
     }
 
 /**
+ * Get bet count by event id
+ * @summary Get bet count
+ */
+const betsControllerGetBetCount = (
+    eventId: string,
+ options?: SecondParameter<typeof customInstance<GetBetCountResponse>>,) => {
+      return customInstance<GetBetCountResponse>(
+      {url: `/bets/count/${eventId}`, method: 'GET'
+    },
+      options);
+    }
+
+/**
  * Calculate the bid
  * @summary Finished the bet
  */
@@ -343,6 +357,19 @@ const oddsControllerCreateEvent = (
       {url: `/odds/event`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: createEventRequest
+    },
+      options);
+    }
+
+/**
+ * Get all events
+ * @summary Get events
+ */
+const oddsControllerGetEvents = (
+
+ options?: SecondParameter<typeof customInstance<EventResponse[]>>,) => {
+      return customInstance<EventResponse[]>(
+      {url: `/odds/events`, method: 'GET'
     },
       options);
     }
@@ -470,7 +497,7 @@ const bonusesControllerCreate = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -488,11 +515,13 @@ export type BalancesControllerGetBalanceResult = NonNullable<Awaited<ReturnType<
 export type BalancesControllerGetTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerGetTransactions']>>>
 export type BalancesControllerAddTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerAddTransactions']>>>
 export type BetsControllerPlaceBetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerPlaceBet']>>>
+export type BetsControllerGetBetCountResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerGetBetCount']>>>
 export type BetsControllerFinishedOddResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerFinishedOdd']>>>
 export type OddsControllerGetCategoriesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategories']>>>
 export type OddsControllerGetCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategory']>>>
 export type OddsControllerCreateCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerCreateCategory']>>>
 export type OddsControllerCreateEventResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerCreateEvent']>>>
+export type OddsControllerGetEventsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetEvents']>>>
 export type OddsControllerGetEventResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetEvent']>>>
 export type OddsControllerGetEventsByCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetEventsByCategory']>>>
 export type OddsControllerSwitchEventStateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerSwitchEventState']>>>
