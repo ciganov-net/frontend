@@ -24,6 +24,7 @@ export * from './createPromoResponse';
 export * from './eventResponse';
 export * from './finishOddRequest';
 export * from './getBalanceResponse';
+export * from './getBetCountResponse';
 export * from './getMeResponse';
 export * from './getPromoCodesResponse';
 export * from './getTransactionsResponse';

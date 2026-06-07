@@ -1,3 +1,4 @@
 export const BREADCRUMB_LABELS: Record<string, string> = {
-  dashboard: 'Главная'
+  dashboard: 'Главная',
+  events: 'События'
 }

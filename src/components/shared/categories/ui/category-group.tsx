@@ -1,26 +1,26 @@
 import { CategoryResponse } from '@/api/generated'
 import { CategoryCard } from './category-card'
 import { Label } from '@/components/ui/label'
+import { cn } from '@/libs/tw-merge'
 
 interface Props {
-  header: string
   categories: CategoryResponse[]
+  header?: string
   className?: string
 }
 
 export const CategoryGroup = ({ header, categories, className }: Props) => {
   return (
-    <div className={className}>
-      <Label className='text-lg font-bold'>{header}</Label>
-      <div className='flex flex-row gap-x-4 w-full'>
+    <div className='w-full'>
+      {header && <Label className='text-lg font-bold'>{header}</Label>}
+      <div className={cn(className, 'my-4')}>
         {categories.map(category => (
           <CategoryCard
             key={category.id}
-            className='flex-1 gap-4 my-4'
-            description={category.slug}
+            description={category.description}
             title={category.name}
             href={category.slug}
-            image={category.slug}
+            image={'/mac.png'}
           />
         ))}
       </div>

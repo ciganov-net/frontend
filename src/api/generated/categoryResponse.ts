@@ -11,4 +11,7 @@ export interface CategoryResponse {
   name: string;
   slug: string;
   isActive: boolean;
+  description: string;
+  image: string;
+  badgeColor: string;
 }

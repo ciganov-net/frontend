@@ -49,7 +49,7 @@ export const PlayerCard = ({
               className='rounded-full object-cover'
             />
             <AvatarFallback className='text-xl font-bold'>
-              {name.slice(0, 2).toUpperCase()}
+              {name?.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div
