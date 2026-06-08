@@ -38,6 +38,7 @@ import type {
   SendOtpRequest,
   SendOtpResponse,
   SwitchEventStateResponse,
+  UserInfoResponse,
   VerifyOtpRequest,
   VerifyOtpResponse
 } from './.';
@@ -177,6 +178,19 @@ const accountsControllerConfirmEmailChange = (
       {url: `/accounts/email/confirm`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: confirmEmailChangeRequest
+    },
+      options);
+    }
+
+/**
+ * Getting user auth info: email, role etc
+ * @summary Get user info
+ */
+const accountsControllerUserInfo = (
+
+ options?: SecondParameter<typeof customInstance<UserInfoResponse>>,) => {
+      return customInstance<UserInfoResponse>(
+      {url: `/accounts/info`, method: 'GET'
     },
       options);
     }
@@ -499,7 +513,7 @@ const bonusesControllerCreate = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -510,6 +524,7 @@ export type AuthControllerRevokeResult = NonNullable<Awaited<ReturnType<ReturnTy
 export type AuthControllerRevokeAllResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerRevokeAll']>>>
 export type AccountsControllerInitEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerInitEmailChange']>>>
 export type AccountsControllerConfirmEmailChangeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerConfirmEmailChange']>>>
+export type AccountsControllerUserInfoResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['accountsControllerUserInfo']>>>
 export type UsersControllerGetMeResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetMe']>>>
 export type UsersControllerPatchUserResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerPatchUser']>>>
 export type UsersControllerGetWorstPlayersResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['usersControllerGetWorstPlayers']>>>

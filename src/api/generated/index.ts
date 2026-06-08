@@ -40,5 +40,6 @@ export * from './placeBetResponse';
 export * from './sendOtpRequest';
 export * from './sendOtpResponse';
 export * from './switchEventStateResponse';
+export * from './userInfoResponse';
 export * from './verifyOtpRequest';
 export * from './verifyOtpResponse';
