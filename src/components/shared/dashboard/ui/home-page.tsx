@@ -8,7 +8,9 @@ import { useEffect, useState } from 'react'
 import { LoadingPage } from '@/components/elements/loading-page'
 
 export const Dashboard = () => {
-  const { data: categories, isLoading } = useGetCategories()
+  const { data: categories, isLoading } = useGetCategories({
+    refetchInterval: 30000
+  })
 
   const [count, setCount] = useState(4)
 
