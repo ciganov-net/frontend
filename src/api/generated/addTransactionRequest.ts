@@ -7,8 +7,8 @@
  */
 
 export interface AddTransactionRequest {
-  type: number;
+  type: string;
   amount: number;
-  eventId: string;
+  eventId?: string;
   multiplier: number;
 }
