@@ -6,7 +6,7 @@ import { useAddTransaction } from '@/api/hooks/useAddTransaction'
 type GameState = 'IDLE' | 'RUNNING' | 'CRASHING' | 'CRASHED' | 'CASHED_OUT';
 
 export const Crash = () => {
-  const {  mutate: addTransaction } = useAddTransaction()
+  const { mutate: addTransaction } = useAddTransaction()
 
   const VIEW_WIDTH = 880;
   const VIEW_HEIGHT = 400;
@@ -43,8 +43,9 @@ export const Crash = () => {
 
     addTransaction({
       amount: bet,
-      type: 'BET_FREEZE',
-      multiplier: 1.00
+      type: 2,
+      multiplier: 1,
+      eventId: '0'
     }, {
       onError: (error: any) => {
         setError(error?.response?.data?.message || 'Недостаточно средств!'); 
@@ -87,8 +88,9 @@ export const Crash = () => {
 
         addTransaction({
           amount: parseFloat(betInput),
-          type: 'BET_LOOSE',
-          multiplier: 1.00
+          type: 4,
+          multiplier: 1.00,
+          eventId: '0'
         }, {
           onError: (error: any) => {
             setError(error?.response?.data?.message || 'Недостаточно средств для выплаты выйгрыша (извините)!'); 
@@ -149,12 +151,12 @@ export const Crash = () => {
     gameStateRef.current = 'CASHED_OUT';
     setGameState('CASHED_OUT');
     
-    const payout = +(parseFloat(betInput) * finalMultiplier).toFixed(2);
-
+    const payout = Math.ceil(parseFloat(betInput) * finalMultiplier);
     addTransaction({
       amount: payout,
-      type: 'BET_WIN',
-      multiplier: 1.00
+      type: 3,
+      multiplier: 1,
+      eventId: '0'
     }, {
       onError: (error: any) => {
         setError(error?.response?.data?.message || 'Недостаточно средств для выплаты выйгрыша (извините)!'); 
