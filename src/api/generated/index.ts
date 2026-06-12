@@ -12,6 +12,7 @@ export * from './addTransactionRequest';
 export * from './addTransactionResponse';
 export * from './balance';
 export * from './categoryResponse';
+export * from './coefficientResponse';
 export * from './confirmEmailChangeRequest';
 export * from './createCategoryRequest';
 export * from './createCategoryResponse';

@@ -17,9 +17,12 @@ import { useGetBalance } from '@/api/hooks/useGetBalance'
 export function Profile() {
   const router = useRouter()
   const { isAuthenticated, exit } = useAuth()
-  const { data: user, isLoading: profileIsLoading } = useGetMe()
+  const { data: user, isLoading: profileIsLoading } = useGetMe({
+    enabled: isAuthenticated
+  })
   const { data: balance, isLoading: balanceIsLoading } = useGetBalance({
-    refetchInterval: 5000
+    enabled: isAuthenticated,
+    refetchInterval: isAuthenticated ? 5000 : false
   })
 
   const { mutate, isPending } = useRevokeSession({

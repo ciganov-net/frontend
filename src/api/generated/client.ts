@@ -11,6 +11,7 @@ import type {
   AddTransactionRequest,
   AddTransactionResponse,
   CategoryResponse,
+  CoefficientResponse,
   ConfirmEmailChangeRequest,
   CreateCategoryRequest,
   CreateCategoryResponse,
@@ -513,7 +514,20 @@ const bonusesControllerCreate = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate}};
+/**
+ * Generate coefficient for crash
+ * @summary Generate coefficient
+ */
+const crashControllerGenerateCoef = (
+
+ options?: SecondParameter<typeof customInstance<CoefficientResponse>>,) => {
+      return customInstance<CoefficientResponse>(
+      {url: `/crash/generate-coef`, method: 'GET'
+    },
+      options);
+    }
+
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate,crashControllerGenerateCoef}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -548,3 +562,4 @@ export type OddsControllerGetRandomEventsResult = NonNullable<Awaited<ReturnType
 export type BonusesControllerGetPromoCodesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerGetPromoCodes']>>>
 export type BonusesControllerActivatePromoResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerActivatePromo']>>>
 export type BonusesControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerCreate']>>>
+export type CrashControllerGenerateCoefResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['crashControllerGenerateCoef']>>>
