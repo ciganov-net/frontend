@@ -8,8 +8,7 @@ type GameState = 'IDLE' | 'RUNNING' | 'CRASHING' | 'CRASHED' | 'CASHED_OUT'
 
 export const Crash = () => {
   const { mutate: addTransaction } = useAddTransaction()
-  //TODO: сделать привязку этого кефа Ярик
-  const { data: coefficient, isLoading } = useGenerateCoefficient()
+  const { data: coefficient, isLoading, refetch: updateRoundCoef } = useGenerateCoefficient()
 
   const VIEW_WIDTH = 880
   const VIEW_HEIGHT = 400
@@ -35,6 +34,7 @@ export const Crash = () => {
   const [svgPath, setSvgPath] = useState<string>(`M ${START_X} ${START_Y}`)
 
   const startGame = () => {
+    updateRoundCoef()
     setError(null)
     const bet = parseFloat(betInput)
 
@@ -55,25 +55,28 @@ export const Crash = () => {
           setError(error?.response?.data?.message || 'Недостаточно средств!')
         },
         onSuccess: () => {
-          crashPointRef.current = +(
-            Math.pow(Math.random(), 0.5) * 8.5 +
-            1.5
-          ).toFixed(2)
-          startTimeRef.current = performance.now()
+          console.log(coefficient)
+          if (coefficient != undefined) {
+            crashPointRef.current = coefficient
+            startTimeRef.current = performance.now()
 
-          setSvgPath(`M ${START_X} ${START_Y}`)
-          setCharacterX(START_X)
-          setCharacterY(START_Y)
+            setSvgPath(`M ${START_X} ${START_Y}`)
+            setCharacterX(START_X)
+            setCharacterY(START_Y)
 
-          multiplierRef.current = 1.0
-          setMultiplier(1.0)
+            multiplierRef.current = 1.0
+            setMultiplier(1.0)
 
-          setWinAmount(0)
+            setWinAmount(0)
 
-          gameStateRef.current = 'RUNNING'
-          setGameState('RUNNING')
+            gameStateRef.current = 'RUNNING'
+            setGameState('RUNNING')
 
-          requestRef.current = requestAnimationFrame(updateGame)
+            requestRef.current = requestAnimationFrame(updateGame)
+          }
+          else {
+            setError("Ошибка при генерации коэффициента!");
+          }
         }
       }
     )
