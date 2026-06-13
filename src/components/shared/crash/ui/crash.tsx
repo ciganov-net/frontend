@@ -55,7 +55,6 @@ export const Crash = () => {
           setError(error?.response?.data?.message || 'Недостаточно средств!')
         },
         onSuccess: () => {
-          console.log(coefficient)
           if (coefficient != undefined) {
             crashPointRef.current = coefficient
             startTimeRef.current = performance.now()
