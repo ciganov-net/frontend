@@ -179,12 +179,11 @@ export const Crash = () => {
     gameStateRef.current = 'CASHED_OUT'
     setGameState('CASHED_OUT')
 
-    const payout = Math.ceil(parseFloat(betInput) * finalMultiplier)
     addTransaction(
       {
-        amount: payout,
+        amount: parseFloat(betInput),
         type: 3,
-        multiplier: 1,
+        multiplier: +finalMultiplier.toFixed(2),
         eventId: '0'
       },
       {
@@ -195,8 +194,8 @@ export const Crash = () => {
           )
           setWinAmount(0)
         },
-        onSuccess: () => {
-          setWinAmount(payout)
+        onSuccess: () => { 
+          setWinAmount(Math.ceil(parseFloat(betInput) * finalMultiplier))
         }
       }
     )
@@ -371,7 +370,7 @@ export const Crash = () => {
             </div>
           )}
 
-          {gameState === 'RUNNING' || gameState === 'CRASHING' ? (
+          {gameState === 'RUNNING' ? (
             <button
               onClick={cashOut}
               className='inline-flex h-12 w-full items-center justify-center rounded-md bg-secondary px-4 text-base font-bold text-secondary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
@@ -384,6 +383,13 @@ export const Crash = () => {
               className='inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-4 text-base font-bold text-primary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
             >
               ПРОЕБАТЬ ДЕНЬГИ
+            </button>
+          ) : gameState === 'CRASHING' ? (
+            <button
+              disabled={true}
+              className='disabled inline-flex h-12 w-full items-center justify-center rounded-md bg-secondary px-4 text-base font-bold text-secondary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
+            >
+              Не получилось, не фортануло...
             </button>
           ) : (
             <button
