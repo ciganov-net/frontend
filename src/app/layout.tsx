@@ -1,3 +1,4 @@
+'use client'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Inter } from 'next/font/google'
 import '../styles/globals.css'
@@ -8,6 +9,7 @@ import { TanstackProvider } from '@/providers/tanstack-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { HealthCheckProvider } from '@/providers/healthcheck-provider'
 import { WsProvider } from '@/providers/ws-provider'
+import { useAuth } from '@/hooks/useAuth'
 
 if (!APP_CONFIG.baseUrl) throw new Error('APP_CONFIG.baseUrl should be defined')
 
@@ -44,6 +46,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { isAuthenticated } = useAuth()
   return (
     <html
       lang='ru'
@@ -60,7 +63,7 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         <TanstackProvider>
           <Toaster />
-          <WsProvider />
+          {isAuthenticated && <WsProvider />}
           <HealthCheckProvider>{children}</HealthCheckProvider>
         </TanstackProvider>
       </body>
