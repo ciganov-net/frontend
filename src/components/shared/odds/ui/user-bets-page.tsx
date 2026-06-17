@@ -1,67 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useGetUserBets } from '@/api/hooks/useGetUserBets'
 import { Clock, CheckCircle2, XCircle, Ban, Ticket, Calendar, FileQuestion } from 'lucide-react';
 
 export const UserBets = () => {
-  //TODO поменять на хук
-  const [bets] = useState([
-  {
-    id: '1',
-    status: 'WON',
-    amount: 500.00,
-    totalCoefficient: 2.53,
-    potentialPayout: 1265.00,
-    actualPayout: 1265.00,
-    eventName: 'event1',
-    outcomeName: 'outcome1',
-    createdAt: '17.06.2026, 11:30'
-  },
-  {
-    id: '2',
-    status: 'PENDING',
-    amount: 1000.00,
-    totalCoefficient: 1.85,
-    potentialPayout: 1850.00,
-    actualPayout: null,
-    eventName: 'EVENT2EVENT2',
-    outcomeName: 'outcomeoutcome',
-    createdAt: '17.06.2026, 11:35'
-  },
-  {
-    id: '3',
-    status: 'LOST',
-    amount: 300.00,
-    totalCoefficient: 4.20,
-    potentialPayout: 1260.00,
-    actualPayout: 0.00,
-    eventName: 'EVENT3EV',
-    outcomeName: 'asdf asfd ',
-    createdAt: '16.06.2026, 22:15'
-  },
-  {
-    id: '4',
-    status: 'CANCELLED',
-    amount: 2000.00,
-    totalCoefficient: 1.50,
-    potentialPayout: 12345.00,
-    actualPayout: 1243.00,
-    eventName: 'EVENT4EVENT4EVENT',
-    outcomeName: 'outcome tooerf',
-    createdAt: '15.06.2026, 14:00'
-  },
-  {
-    id: '5',
-    status: 'smth_status',
-    amount: 2000.00,
-    totalCoefficient: 3.54,
-    potentialPayout: 3000.00,
-    actualPayout: 1234.00,
-    eventName: 'EVENT 5',
-    outcomeName: 'asdq q',
-    createdAt: '15.06.2026, 14:00'
-  }
-]);
+  const { data: bets = [], isLoading } = useGetUserBets();
 
   return (
     <div>
@@ -75,38 +19,38 @@ export const UserBets = () => {
         </div>
 
         <div className="grid gap-4">
-          {bets.map((bet) => {
+          {bets.map((bet, index) => {
             return (
               <div 
-                key={bet.id} 
+                key={index} 
                 className="rounded-xl border p-4 flex items-center"
               >
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-3 flex-wrap">
-                    {bet.status === 'WON' ? (
+                    {bet.status === 1 ? (
                       <div className={`inline-flex gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border bg-emerald-500/10 border-emerald-500/30 text-emerald-400`}>
                         <CheckCircle2 className="h-4 w-4" />ВЫЙГРЫШ
                       </div>
-                    ) : bet.status === 'LOST' ? (
+                    ) : bet.status === 2 ? (
                       <div className={`inline-flex gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border bg-rose-500/10 border-rose-500/30 text-rose-400`}>
                         <XCircle className="h-4 w-4" />ПОТРАЧЕНО
                       </div>
-                    ) : bet.status === 'PENDING' ? (
+                    ) : bet.status === 0 ? (
                       <div className={`inline-flex gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border bg-amber-500/10 border-amber-500/30 text-amber-400`}>
                         <Clock className="h-4 w-4" />Ждём....
                       </div>
-                    ) : bet.status === 'CANCELLED' ? (
+                    ) : bet.status === 3 ? (
                       <div className={`inline-flex gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border bg-zinc-500/10 border-zinc-500/30 text-zinc-400`}>
                         <Ban className="h-4 w-4" />Отменено
                       </div>
                     ) : (
                       <div className={`inline-flex gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border bg-gray-500/10 border-gray-500/30 text-gray-400`}>
-                        <FileQuestion className="h-4 w-4" />UNKNOWN
+                        <FileQuestion className="h-4 w-4" />UNKNOWN:{bet.status}
                       </div>
                     )}
                     
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />{bet.createdAt}
+                      <Calendar className="h-3 w-3" />{new Date(bet.createdAt).toLocaleString('ru-RU')}
                     </span>
                   </div>
 
@@ -127,7 +71,7 @@ export const UserBets = () => {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">КОЭФФИЦИЕНТ</p>
-                    <p className="text-sm font-black mt-1 text-primary">{bet.totalCoefficient.toFixed(2)}x</p>
+                    <p className="text-sm font-black mt-1 text-primary">{bet.coefficient.toFixed(2)}x</p>
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">ВОЗМОЖНЫЙ ДОХОД</p>
@@ -136,9 +80,9 @@ export const UserBets = () => {
                   <div className="col-span-1 md:col-span-1">
                     <p className="text-xs text-muted-foreground">ИТОГ</p>
                     <p className={`text-base font-black mt-0.5 ${
-                      bet.status === 'WON' ? 'text-emerald-400' : 
-                      bet.status === 'LOST' ? 'text-rose-400 line-through' : 
-                      bet.status === 'PENDING' ? 'text-amber-400' : 'text-zinc-400'
+                      bet.status === 1 ? 'text-emerald-400' : 
+                      bet.status === 2 ? 'text-rose-400 line-through' : 
+                      bet.status === 0 ? 'text-amber-400' : 'text-zinc-400'
                     }`}>
                       {bet.actualPayout !== null ? `${bet.actualPayout.toFixed(2)} ₽` : '—'}
                     </p>
