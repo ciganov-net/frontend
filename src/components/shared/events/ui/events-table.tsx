@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export const EventsAdminPage = () => {
   const { data: events } = useGetEvents({ orderBy: 'NEWEST' })
@@ -23,7 +24,7 @@ export const EventsAdminPage = () => {
     const winnerOutcomeId = winners[eventId]
 
     if (!winnerOutcomeId) {
-      alert('Выберите победивший исход')
+      toast.error('Выберите победивший исход')
       return
     }
 

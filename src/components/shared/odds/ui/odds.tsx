@@ -1,30 +1,15 @@
 'use client'
 import { OddCard } from './odd-card'
 import { useBet } from '@/hooks/useBet'
-import { useGetEvents } from '@/api/hooks/useGetEvents'
-import { LoadingPage } from '@/components/elements/loading-page'
-import { OddsControllerGetEventsOrderBy } from '@/api/generated'
-import { useEffect } from 'react'
-import { SelectedFilters } from '../../events/ui/filters'
+import { EventResponse } from '@/api/generated'
 
 interface Props {
-  search: string
-  sortBy: OddsControllerGetEventsOrderBy
-  filters: SelectedFilters
+  events: EventResponse[]
   className?: string
 }
 
-export const Odds = ({ className, search, sortBy, filters }: Props) => {
-  const { data: events, isLoading } = useGetEvents({
-    search,
-    orderBy: sortBy,
-    outcomeTypes: filters.outcomeTypes,
-    minCoefficient: filters.minCoefficient,
-    maxCoefficient: filters.maxCoefficient
-  })
+export const Odds = ({ className, events }: Props) => {
   const { addBet } = useBet()
-
-  if (isLoading) return <LoadingPage />
   return (
     <div className={className}>
       <div className='flex flex-col gap-4 my-4 w-full'>

@@ -28,6 +28,7 @@ import type {
   GetMeResponse,
   GetPromoCodesResponse,
   GetTransactionsResponse,
+  GetUserBetsResponse,
   GetWorstPlayersResponse,
   HealthResponse,
   InitEmailChangeRequest,
@@ -307,6 +308,19 @@ const betsControllerGetBetCount = (
     }
 
 /**
+ * Get all user bets
+ * @summary Get user bets
+ */
+const betsControllerGetUserBets = (
+
+ options?: SecondParameter<typeof customInstance<GetUserBetsResponse[]>>,) => {
+      return customInstance<GetUserBetsResponse[]>(
+      {url: `/bets/user-bets`, method: 'GET'
+    },
+      options);
+    }
+
+/**
  * Calculate the bid
  * @summary Finished the bet
  */
@@ -527,7 +541,7 @@ const crashControllerGenerateCoef = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate,crashControllerGenerateCoef}};
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerGetUserBets,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate,crashControllerGenerateCoef}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -547,6 +561,7 @@ export type BalancesControllerGetTransactionsResult = NonNullable<Awaited<Return
 export type BalancesControllerAddTransactionsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['balancesControllerAddTransactions']>>>
 export type BetsControllerPlaceBetResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerPlaceBet']>>>
 export type BetsControllerGetBetCountResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerGetBetCount']>>>
+export type BetsControllerGetUserBetsResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerGetUserBets']>>>
 export type BetsControllerFinishedOddResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['betsControllerFinishedOdd']>>>
 export type OddsControllerGetCategoriesResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategories']>>>
 export type OddsControllerGetCategoryResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['oddsControllerGetCategory']>>>

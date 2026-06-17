@@ -8,7 +8,11 @@ type GameState = 'IDLE' | 'RUNNING' | 'CRASHING' | 'CRASHED' | 'CASHED_OUT'
 
 export const Crash = () => {
   const { mutate: addTransaction } = useAddTransaction()
-  const { data: coefficient, isLoading, refetch: updateRoundCoef } = useGenerateCoefficient()
+  const {
+    data: coefficient,
+    isLoading,
+    refetch: updateRoundCoef
+  } = useGenerateCoefficient()
 
   const VIEW_WIDTH = 880
   const VIEW_HEIGHT = 400
@@ -22,7 +26,7 @@ export const Crash = () => {
   const [winAmount, setWinAmount] = useState<number>(0)
   const [cashedOutMultiplier, setCashedOutMultiplier] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
-  const [useBonus, setUseBonus] = useState<boolean>(false);
+  const [useBonus, setUseBonus] = useState<boolean>(false)
   const requestRef = useRef<number | null>(null)
   const startTimeRef = useRef<number | null>(null)
   const gameStateRef = useRef<GameState>('IDLE')
@@ -73,9 +77,8 @@ export const Crash = () => {
             setGameState('RUNNING')
 
             requestRef.current = requestAnimationFrame(updateGame)
-          }
-          else {
-            setError("Ошибка при генерации коэффициента!");
+          } else {
+            setError('Ошибка при генерации коэффициента!')
           }
         }
       }
@@ -197,7 +200,7 @@ export const Crash = () => {
           )
           setWinAmount(0)
         },
-        onSuccess: () => { 
+        onSuccess: () => {
           setWinAmount(Math.ceil(parseFloat(betInput) * finalMultiplier))
         }
       }
@@ -349,23 +352,23 @@ export const Crash = () => {
 
           {gameState === 'IDLE' && (
             <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2 rounded-lg bg-card p-3 border border-border/60 shadow-sm w-full'>
-              <div className="flex items-center space-x-2 bg-muted/40 px-3 py-2 rounded-md border border-border/40 select-none shrink-0">
+              <div className='flex items-center space-x-2 bg-muted/40 px-3 py-2 rounded-md border border-border/40 select-none shrink-0'>
                 <input
-                  id="bonus-checkbox"
-                  type="checkbox"
+                  id='bonus-checkbox'
+                  type='checkbox'
                   checked={useBonus}
-                  onChange={(e) => setUseBonus(e.target.checked)}
-                  className="h-4 w-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  onChange={e => setUseBonus(e.target.checked)}
+                  className='h-4 w-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
                 />
-                <label 
-                  htmlFor="bonus-checkbox" 
-                  className="text-xs font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer disabled:opacity-50"
+                <label
+                  htmlFor='bonus-checkbox'
+                  className='text-xs font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer disabled:opacity-50'
                 >
                   БОНУСЫ
                 </label>
               </div>
 
-              <div className="relative flex-1">
+              <div className='relative flex-1'>
                 <label className='text-sm font-medium text-muted-foreground'>
                   Ваша ставка (₽)
                 </label>

@@ -42,6 +42,7 @@ export function Profile() {
 
   return isAuthenticated ? (
     <div className='flex flex-row items-center gap-3'>
+      {/* TODO: сделать по умолчанию аву коня цыгана */}
       <Avatar size='lg'>
         <AvatarImage
           src={user?.avatar || 'https://github.com/shadcn.png'}
@@ -50,7 +51,6 @@ export function Profile() {
         />
         <AvatarFallback>{user?.email?.charAt(0).toUpperCase()}</AvatarFallback>
       </Avatar>
-
       <div className='flex flex-col'>
         <span className='font-semibold'>{user?.displayName}</span>
         <span className='text-sm font-medium'>

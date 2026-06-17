@@ -5,8 +5,8 @@ import { useGetCategories } from '@/api/hooks/useGetCategories'
 import { CategoryGroup } from '../../categories/ui/category-group'
 import { useState } from 'react'
 import { LoadingPage } from '@/components/elements/loading-page'
-import { Odds } from '../../odds/ui/odds'
 import { OddsControllerGetEventsOrderBy } from '@/api/generated'
+import { OddsWithFilters } from '../../odds/ui/odd-filter'
 
 export const Event = () => {
   const { data: categories, isLoading } = useGetCategories()
@@ -40,7 +40,7 @@ export const Event = () => {
           className='grid grid-cols-3 gap-4 w-full'
         />
       </div>
-      <Odds search={search} sortBy={sort} filters={filters} />
+      <OddsWithFilters search={search} sortBy={sort} filters={filters} />
     </div>
   )
 }

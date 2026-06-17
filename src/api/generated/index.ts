@@ -29,6 +29,7 @@ export * from './getBetCountResponse';
 export * from './getMeResponse';
 export * from './getPromoCodesResponse';
 export * from './getTransactionsResponse';
+export * from './getUserBetsResponse';
 export * from './getWorstPlayersResponse';
 export * from './healthResponse';
 export * from './initEmailChangeRequest';

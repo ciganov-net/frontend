@@ -5,11 +5,17 @@ import { cn } from '@/libs/tw-merge'
 
 interface Props {
   categories: CategoryResponse[]
+  prefix?: string
   header?: string
   className?: string
 }
 
-export const CategoryGroup = ({ header, categories, className }: Props) => {
+export const CategoryGroup = ({
+  header,
+  categories,
+  className,
+  prefix
+}: Props) => {
   return (
     <div className='w-full'>
       {header && <Label className='text-lg font-bold'>{header}</Label>}
@@ -18,6 +24,7 @@ export const CategoryGroup = ({ header, categories, className }: Props) => {
           <CategoryCard
             key={category.id}
             description={category.description}
+            usePrefix={prefix ? prefix : true}
             title={category.name}
             href={category.slug}
             image={'/mac.png'}
