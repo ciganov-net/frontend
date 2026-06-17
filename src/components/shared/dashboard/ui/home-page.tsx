@@ -6,8 +6,10 @@ import { PopularOdds } from '../../odds/ui/popular-odds'
 import { WorstPlayers } from './worst-players'
 import { useEffect, useState } from 'react'
 import { LoadingPage } from '@/components/elements/loading-page'
+import { useAuth } from '@/hooks/useAuth'
 
 export const Dashboard = () => {
+  const { isAuthenticated } = useAuth()
   const { data: categories, isLoading } = useGetCategories({
     refetchInterval: 30000
   })
@@ -40,11 +42,12 @@ export const Dashboard = () => {
   }
   return (
     <>
-      <FreebetBanner />
+      {!isAuthenticated && <FreebetBanner />}
       <div className={'mt-4 flex flex-row gap-x-4 w-full'}>
         <CategoryGroup
           header='Категории'
           categories={categories.slice(0, count)}
+          prefix='events'
           className='grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 w-full'
         />
       </div>

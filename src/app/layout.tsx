@@ -1,4 +1,3 @@
-'use client'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono, Inter } from 'next/font/google'
 import '../styles/globals.css'
@@ -46,7 +45,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const { isAuthenticated } = useAuth()
   return (
     <html
       lang='ru'
@@ -63,7 +61,6 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         <TanstackProvider>
           <Toaster />
-          {isAuthenticated && <WsProvider />}
           <HealthCheckProvider>{children}</HealthCheckProvider>
         </TanstackProvider>
       </body>

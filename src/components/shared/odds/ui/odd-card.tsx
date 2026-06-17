@@ -10,7 +10,7 @@ import { BADGE_STYLE } from '@/constants/badge.constant'
 import { useBet } from '@/hooks/useBet'
 import { cn } from '@/libs/tw-merge'
 import { calculateRemaining } from '@/libs/utils/calculate-remaining'
-import { Clock, Dot } from 'lucide-react'
+import { AccessibilityIcon, Clock, Dot, PointerIcon } from 'lucide-react'
 
 interface Props {
   event: EventResponse
@@ -41,8 +41,20 @@ export const OddCard = ({ event, onSelectOutcome }: Props) => {
         </Label>
 
         <div className='flex flex-row items-center gap-x-2 text-xs text-muted-foreground'>
-          <Clock size={16} />
-          <span>До закрытия: {calculateRemaining(event.start)}</span>
+          {event.isLive ? (
+            <>
+              <AccessibilityIcon
+                size={16}
+                className='animate-pulse text-red-500'
+              />
+              <span>В игре</span>
+            </>
+          ) : (
+            <>
+              <Clock size={16} />
+              <span>До закрытия: {calculateRemaining(event.start)}</span>
+            </>
+          )}
           <Dot className='-mx-2' />
           <span>{count?.count} Ставок</span>
         </div>
