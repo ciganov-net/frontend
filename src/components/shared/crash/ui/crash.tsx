@@ -3,10 +3,20 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAddTransaction } from '@/api/hooks/useAddTransaction'
 import { useGenerateCoefficient } from '@/api/hooks/useGenerateCoefficient'
-
-type GameState = 'IDLE' | 'RUNNING' | 'CRASHING' | 'CRASHED' | 'CASHED_OUT'
+import { useCrash } from '@/contexts/crash-context'
 
 export const Crash = () => {
+  const {
+    betInput,
+    crashControlRef,
+    setBetInput,
+    setUseBonus,
+    gameStateRef,
+    useBonus,
+    gameState,
+    setGameState
+  } = useCrash()
+
   const { mutate: addTransaction } = useAddTransaction()
   const {
     data: coefficient,
@@ -20,16 +30,12 @@ export const Crash = () => {
   const START_X = 40
   const START_Y = VIEW_HEIGHT - 30
 
-  const [betInput, setBetInput] = useState<string>('100')
-  const [gameState, setGameState] = useState<GameState>('IDLE')
   const [multiplier, setMultiplier] = useState<number>(1.0)
   const [winAmount, setWinAmount] = useState<number>(0)
   const [cashedOutMultiplier, setCashedOutMultiplier] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
-  const [useBonus, setUseBonus] = useState<boolean>(false)
   const requestRef = useRef<number | null>(null)
   const startTimeRef = useRef<number | null>(null)
-  const gameStateRef = useRef<GameState>('IDLE')
   const crashPointRef = useRef<number>(0)
   const multiplierRef = useRef<number>(1.0)
 
@@ -235,6 +241,13 @@ export const Crash = () => {
     }
   }, [])
 
+  useEffect(() => {
+    crashControlRef.current = {
+      startGame: startGame,
+      cashOut: cashOut
+    }
+  }, [startGame, cashOut, crashControlRef])
+
   return (
     <div className='flex items-center justify-center p-6 text-foreground min-h-[550px]'>
       <div
@@ -350,7 +363,7 @@ export const Crash = () => {
             </div>
           )}
 
-          {gameState === 'IDLE' && (
+          {/* {gameState === 'IDLE' && (
             <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2 rounded-lg bg-card p-3 border border-border/60 shadow-sm w-full'>
               <div className='flex items-center space-x-2 bg-muted/40 px-3 py-2 rounded-md border border-border/40 select-none shrink-0'>
                 <input
@@ -366,8 +379,8 @@ export const Crash = () => {
                 >
                   БОНУСЫ
                 </label>
-              </div>
-
+              </div> */}
+          {/* 
               <div className='relative flex-1'>
                 <label className='text-sm font-medium text-muted-foreground'>
                   Ваша ставка (₽)
@@ -392,7 +405,7 @@ export const Crash = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
 
           {gameState === 'RUNNING' ? (
             <button
