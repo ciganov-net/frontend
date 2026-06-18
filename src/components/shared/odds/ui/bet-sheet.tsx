@@ -4,9 +4,46 @@ import { Label } from '@/components/ui/label'
 import { BetCard } from './bet-card'
 import { Button } from '@/components/ui/button'
 import { useBet } from '@/hooks/useBet'
+import { usePlaceBet } from '@/api/hooks/usePlaceBet'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 export const BetSheet = () => {
-  const { bets } = useBet()
+  const router = useRouter()
+  const { bets, clear } = useBet()
+  const { mutate, isPending } = usePlaceBet({
+    onSuccess: () => {
+      toast.success('Ставки успешно приняты!')
+      clear()
+      router.push('/bets')
+    },
+    onError: () => {
+      toast.error(
+        'При ставке произошла ошибка, возможно коэффициенты поменялись'
+      )
+      clear()
+      router.refresh()
+    }
+  })
+
+  const handleBet = async () => {
+    if (bets.length === 0) return
+    try {
+      await Promise.all(
+        bets.map(bet =>
+          mutate({
+            amount: bet.amount,
+            coefficient: bet.coefficient,
+            outcomeId: bet.outcomeId
+          })
+        )
+      )
+    } catch (e) {
+      console.log(e)
+      toast.error('Произошла ошибка при ставке')
+    }
+  }
+
   const total = bets.reduce((sum, current) => sum + current.amount, 0)
   return (
     <div className='flex flex-col gap-4'>
@@ -28,7 +65,13 @@ export const BetSheet = () => {
           <p>{total} ₽</p>
         </Label>
 
-        <Button className='w-full'>Проебать деньги</Button>
+        <Button
+          className='w-full'
+          onClick={handleBet}
+          disabled={isPending || bets.length === 0}
+        >
+          {isPending ? 'Обработка...' : 'Разместить ставку'}
+        </Button>
       </div>
     </div>
   )

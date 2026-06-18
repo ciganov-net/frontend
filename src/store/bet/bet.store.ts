@@ -18,6 +18,10 @@ export const betStore = create(
         set(state => ({
           bets: state.bets.filter(b => b.outcomeId !== outcomeId)
         })),
+      clearBet: () =>
+        set(() => ({
+          bets: []
+        })),
       updateAmount: (outcomeId, amount) =>
         set(state => ({
           bets: state.bets.map(bet =>

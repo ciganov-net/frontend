@@ -1,6 +1,7 @@
 export interface BetStore {
   bets: Bet[]
   addBet: (bet: Bet) => void
+  clearBet: () => void
   removeBet: (outcomeId: string) => void
   updateAmount: (outcomeId: string, amount: number) => void
 }
