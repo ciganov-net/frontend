@@ -5,11 +5,13 @@ export function useBet() {
   const addBet = betStore(state => state.addBet)
   const removeBet = betStore(state => state.removeBet)
   const updateAmount = betStore(state => state.updateAmount)
+  const clear = betStore(state => state.clearBet)
 
   return {
     bets,
     addBet,
     removeBet,
-    updateAmount
+    updateAmount,
+    clear
   }
 }

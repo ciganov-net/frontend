@@ -1,3 +1,5 @@
+import { UserBets } from '@/components/shared/odds/ui/user-bets-page'
+
 export default function Page() {
-  return <div>asdasd</div>
+  return <UserBets/>
 }
