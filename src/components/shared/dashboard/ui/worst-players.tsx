@@ -13,7 +13,7 @@ export const WorstPlayers = ({ className }: Props) => {
   let place = 1
   return (
     <div className={className}>
-      <Label className='text-lg font-bold'>Наши лучшие игроки</Label>
+      <Label className='typo-h5'>Наши лучшие игроки</Label>
       <div className='flex flex-row gap-4 my-4 w-full'>
         {worstPlayers?.map(player => (
           <PlayerCard

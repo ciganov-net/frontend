@@ -10,6 +10,14 @@ interface Props {
   className?: string
 }
 
+const categoryImages: Record<string, string> = {
+  mystic: '/mystic.png',
+  lifestyle: '/lifestyle.png',
+  person: '/person.png',
+  media: '/media.png'
+}
+
+
 export const CategoryGroup = ({
   header,
   categories,
@@ -18,7 +26,7 @@ export const CategoryGroup = ({
 }: Props) => {
   return (
     <div className='w-full'>
-      {header && <Label className='text-lg font-bold'>{header}</Label>}
+      {header && <Label className='typo-h5'>{header}</Label>}
       <div className={cn(className, 'my-4')}>
         {categories.map(category => (
           <CategoryCard
@@ -27,7 +35,7 @@ export const CategoryGroup = ({
             usePrefix={prefix ? prefix : true}
             title={category.name}
             href={category.slug}
-            image={'/mac.png'}
+            image={categoryImages[category.slug] ?? '/mac.png'}
           />
         ))}
       </div>

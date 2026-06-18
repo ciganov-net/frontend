@@ -114,7 +114,7 @@ export const LoginPage = () => {
     <AuthCard>
       <h4 className='text-center typo-h4'>Авторизация</h4>
     <div>
-      <form className='flex w-full flex-col'
+      <form className='flex w-full flex-col gap-6'
         onSubmit={e => {
           e.preventDefault()
           form.handleSubmit()

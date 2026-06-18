@@ -315,6 +315,13 @@
   --textfield-label-default: var(--neutral-500);
   --textfield-label-error: var(--error-500);
 
+  --gradient-card-background: linear-gradient(
+    332.78deg,
+    var(--brand-300) -108.13%,
+    rgba(17, 19, 24, 0.6) 63.41%
+  ),
+  rgba(17, 19, 24, 0.4);
+
 
 }
 
@@ -448,17 +455,27 @@
     font-weight: var(--typography-text-small-bold-font-weight);
   }
 }
-@utility text-xsmall {
-  font-family: var(--typography-font-family-sans);
-  font-size: var(--typography-text-xsmall-font-size);
-  line-height: var(--typography-text-xsmall-line-height);
-  font-weight: var(--typography-text-xsmall-font-weight);
+@layer utilities {
+  .typo-xsmall {
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--typography-text-xsmall-font-size);
+    line-height: var(--typography-text-xsmall-line-height);
+    font-weight: var(--typography-text-xsmall-font-weight);
+  }
 }
-@utility text-2xsmall {
-  font-family: var(--typography-font-family-sans);
-  font-size: var(--typography-text-2xsmall-font-size);
-  line-height: var(--typography-text-2xsmall-line-height);
-  font-weight: var(--typography-text-2xsmall-font-weight);
+@layer utilities {
+  .typo-2xsmall {
+    font-family: var(--typography-font-family-sans);
+    font-size: var(--typography-text-2xsmall-font-size);
+    line-height: var(--typography-text-2xsmall-line-height);
+    font-weight: var(--typography-text-2xsmall-font-weight);
+  }
+}
+
+@layer utilities {
+  .text-shadow-gold {
+    text-shadow: 0 0 12px rgba(228, 189, 78, 0.5);
+  }
 }
 
 @layer base {
