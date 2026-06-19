@@ -7,5 +7,6 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   mystic: 'Мистика',
   bets: 'Мои ставки',
   category: 'Категория',
-  crash: 'Краш'
+  crash: 'Краш',
+  profile: 'Профиль'
 }
