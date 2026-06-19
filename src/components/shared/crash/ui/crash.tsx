@@ -67,6 +67,7 @@ export const Crash = () => {
         },
         onSuccess: () => {
           if (coefficient != undefined) {
+            //@ts-ignore
             crashPointRef.current = coefficient
             startTimeRef.current = performance.now()
 

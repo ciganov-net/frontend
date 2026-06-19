@@ -27,7 +27,7 @@ export const WelcomePage = () => {
           Выбирай абсурдные исходы, ставь на самые неожиданные события и
           проигрывай
         </Label>
-        <Button size='lg' variant='default'>
+        <Button size='large' variant='solid'>
           <Link href='/dashboard'>Сделать ставку</Link>
         </Button>
       </div>

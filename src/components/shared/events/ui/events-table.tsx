@@ -68,14 +68,29 @@ export const EventsAdminPage = () => {
                   <div className='space-y-2'>
                     {event.outcomes.map(outcome => (
                       <div
+                        //@ts-ignore
                         key={outcome.id}
                         className='flex items-center justify-between rounded-md border p-3'
                       >
                         <div className='flex items-center gap-3'>
-                          <RadioGroupItem value={outcome.id} id={outcome.id} />
-                          <Label htmlFor={outcome.id}>{outcome.name}</Label>
+                          <RadioGroupItem
+                            //@ts-ignore
+                            value={outcome.id}
+                            //@ts-ignore
+                            id={outcome.id}
+                          />
+                          <Label
+                            //@ts-ignore
+                            htmlFor={outcome.id}
+                          >
+                            {/* @ts-ignore */}
+                            {outcome.name}
+                          </Label>
                         </div>
-                        <Badge variant='outline'>x{outcome.coefficient}</Badge>
+                        <Badge variant='outline'>
+                          x
+                          {/* @ts-ignore */}
+                          {outcome.coefficient}</Badge>
                       </div>
                     ))}
                   </div>

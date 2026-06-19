@@ -46,7 +46,7 @@ export const CrashSheet = () => {
       )}
 
       {gameState === 'RUNNING' && (
-        <Button onClick={handleCashOut} variant='secondary' className='w-full'>
+        <Button onClick={handleCashOut} variant='solid' className='w-full'>
           ЗАБРАТЬ
         </Button>
       )}

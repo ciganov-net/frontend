@@ -116,11 +116,11 @@ export const UserBets = () => {
                     <p className='text-xs text-muted-foreground'>ИТОГ</p>
                     <p
                       className={`text-base font-black mt-0.5 ${
-                        bet.status === 1
+                        bet.status === 'WON'
                           ? 'text-emerald-400'
-                          : bet.status === 2
+                          : bet.status === 'LOST'
                             ? 'text-rose-400 line-through'
-                            : bet.status === 0
+                            : bet.status === 'PENDING'
                               ? 'text-amber-400'
                               : 'text-zinc-400'
                       }`}

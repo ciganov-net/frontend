@@ -18,7 +18,9 @@ const buttonVariants = cva(
       },
       size: {
         large: 'h-[62px] gap-2 px-8 py-4 typo-large-caps',
-        medium: 'h-[40px] gap-2 px-3 py-2 typo-small-bold'
+        medium: 'h-[40px] gap-2 px-3 py-2 typo-small-bold',
+        sm: 'h-[24px] gap-2 px-2 py-2 typo-small-bold',
+        icon: 'h-[8px] p-2'
       }
     },
     compoundVariants: [
@@ -79,8 +81,6 @@ const buttonVariants = cva(
     ]
   }
 )
-
-
 
 function Button({
   className,
