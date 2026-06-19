@@ -21,10 +21,12 @@ import type {
   CreateOutcomeResponse,
   CreatePromoRequest,
   CreatePromoResponse,
+  DeleteAvatarResponse,
   EventResponse,
   FinishOddRequest,
   GetBalanceResponse,
   GetBetCountResponse,
+  GetFileResponse,
   GetMeResponse,
   GetPromoCodesResponse,
   GetTransactionsResponse,
@@ -40,6 +42,9 @@ import type {
   SendOtpRequest,
   SendOtpResponse,
   SwitchEventStateResponse,
+  UploadAvatarResponse,
+  UploadFileRequest,
+  UploadFileResponse,
   UserInfoResponse,
   VerifyOtpRequest,
   VerifyOtpResponse
@@ -541,7 +546,61 @@ const crashControllerGenerateCoef = (
       options);
     }
 
-return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerGetUserBets,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate,crashControllerGenerateCoef}};
+/**
+ * Uploades the image and sets it as the user's profile picture by returning fileId which later can be used to retrieve the image
+ * @summary Upload user's avatar
+ */
+const mediaControllerUploadAvatar = (
+
+ options?: SecondParameter<typeof customInstance<UploadAvatarResponse>>,) => {
+      return customInstance<UploadAvatarResponse>(
+      {url: `/media/avatar`, method: 'POST'
+    },
+      options);
+    }
+
+/**
+ * Deletes user's profile picture
+ * @summary Delete user's avatar
+ */
+const mediaControllerDeleteAvatar = (
+
+ options?: SecondParameter<typeof customInstance<DeleteAvatarResponse>>,) => {
+      return customInstance<DeleteAvatarResponse>(
+      {url: `/media/avatar`, method: 'DELETE'
+    },
+      options);
+    }
+
+/**
+ * Uploads file and returns fileId
+ * @summary Uploads file
+ */
+const mediaControllerUploadFile = (
+    uploadFileRequest: UploadFileRequest,
+ options?: SecondParameter<typeof customInstance<UploadFileResponse>>,) => {
+      return customInstance<UploadFileResponse>(
+      {url: `/media/file`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: uploadFileRequest
+    },
+      options);
+    }
+
+/**
+ * Returns url which can be used to access the image by its id
+ * @summary Gets file url
+ */
+const mediaControllerGetFile = (
+    fileId: string,
+ options?: SecondParameter<typeof customInstance<GetFileResponse>>,) => {
+      return customInstance<GetFileResponse>(
+      {url: `/media/file/${fileId}`, method: 'GET'
+    },
+      options);
+    }
+
+return {appControllerHealth,prometheusControllerIndex,authControllerSendOtp,authControllerVerifyOtp,authControllerRefreshToken,authControllerGetUserSession,authControllerRevoke,authControllerRevokeAll,accountsControllerInitEmailChange,accountsControllerConfirmEmailChange,accountsControllerUserInfo,usersControllerGetMe,usersControllerPatchUser,usersControllerGetWorstPlayers,balancesControllerGetBalance,balancesControllerGetTransactions,balancesControllerAddTransactions,betsControllerPlaceBet,betsControllerGetBetCount,betsControllerGetUserBets,betsControllerFinishedOdd,oddsControllerGetCategories,oddsControllerGetCategory,oddsControllerCreateCategory,oddsControllerCreateEvent,oddsControllerGetEvents,oddsControllerGetEvent,oddsControllerGetEventsByCategory,oddsControllerSwitchEventState,oddsControllerCreateOutcome,oddsControllerGetOutcomesByEventId,oddsControllerGetRandomEvents,bonusesControllerGetPromoCodes,bonusesControllerActivatePromo,bonusesControllerCreate,crashControllerGenerateCoef,mediaControllerUploadAvatar,mediaControllerDeleteAvatar,mediaControllerUploadFile,mediaControllerGetFile}};
 export type AppControllerHealthResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['appControllerHealth']>>>
 export type PrometheusControllerIndexResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['prometheusControllerIndex']>>>
 export type AuthControllerSendOtpResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['authControllerSendOtp']>>>
@@ -578,3 +637,7 @@ export type BonusesControllerGetPromoCodesResult = NonNullable<Awaited<ReturnTyp
 export type BonusesControllerActivatePromoResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerActivatePromo']>>>
 export type BonusesControllerCreateResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['bonusesControllerCreate']>>>
 export type CrashControllerGenerateCoefResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['crashControllerGenerateCoef']>>>
+export type MediaControllerUploadAvatarResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['mediaControllerUploadAvatar']>>>
+export type MediaControllerDeleteAvatarResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['mediaControllerDeleteAvatar']>>>
+export type MediaControllerUploadFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['mediaControllerUploadFile']>>>
+export type MediaControllerGetFileResult = NonNullable<Awaited<ReturnType<ReturnType<typeof getCiganovNet>['mediaControllerGetFile']>>>

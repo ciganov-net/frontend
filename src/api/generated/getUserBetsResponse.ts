@@ -7,12 +7,12 @@
  */
 
 export interface GetUserBetsResponse {
-  status: 'WON' | 'PENDING' | 'LOST' | 'CANCELLED'
-  createdAt: string
-  outcomeName: string
-  eventName: string
-  amount: number
-  coefficient: number
-  potentialPayout: number
-  actualPayout: number
+  status: number;
+  createdAt: string;
+  outcomeName: string;
+  eventName: string;
+  amount: number;
+  coefficient: number;
+  potentialPayout: number;
+  actualPayout: number;
 }
