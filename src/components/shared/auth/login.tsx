@@ -90,9 +90,9 @@ export const LoginPage = () => {
   const { mutate: verify, isPending } = useVerifyOtp({
     onSuccess: async data => {
       const user = await refetch()
-
+      auth()
       if (!user?.data?.displayName) {
-        auth()
+        
         router.replace(ROUTES.AUTH.ONBOARDING)
       } else router.replace(ROUTES.DASHBOARD)
     },

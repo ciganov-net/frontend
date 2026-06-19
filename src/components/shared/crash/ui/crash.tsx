@@ -10,7 +10,6 @@ export const Crash = () => {
     betInput,
     crashControlRef,
     setBetInput,
-    setUseBonus,
     gameStateRef,
     useBonus,
     gameState,
@@ -24,11 +23,13 @@ export const Crash = () => {
     refetch: updateRoundCoef
   } = useGenerateCoefficient()
 
-  const VIEW_WIDTH = 880
-  const VIEW_HEIGHT = 400
+  const VIEW_WIDTH = 872
+  const VIEW_HEIGHT = 320
 
   const START_X = 40
   const START_Y = VIEW_HEIGHT - 30
+  const getYByMultiplier = (value: number) =>
+    START_Y - Math.min(VIEW_HEIGHT, Math.pow(Math.abs(value - 1.0), 0.75) * 35)
 
   const [multiplier, setMultiplier] = useState<number>(1.0)
   const [winAmount, setWinAmount] = useState<number>(0)
@@ -43,6 +44,49 @@ export const Crash = () => {
   const [characterY, setCharacterY] = useState<number>(START_Y)
 
   const [svgPath, setSvgPath] = useState<string>(`M ${START_X} ${START_Y}`)
+
+  const rocketOffset = 80
+  const rocketSmoothing = 0.12
+
+  const [rocketAngle, setRocketAngle] = useState<number>(rocketOffset)
+  const rocketAngleRef = useRef<number>(rocketOffset)
+
+  const characterPositionRef = useRef({
+    x: START_X,
+    y: START_Y
+  })
+
+  const normalizeAngle = (from: number, to: number) => {
+    const delta = ((to - from + 540) % 360) - 180
+    return from + delta
+  }
+
+  const updateCharacterPosition = (nextX: number, nextY: number) => {
+    const prev = characterPositionRef.current
+
+    const dx = nextX - prev.x
+    const dy = nextY - prev.y
+
+    if (Math.hypot(dx, dy) > 0.5) {
+      const targetAngle = (Math.atan2(dy, dx) * 180) / Math.PI + rocketOffset
+      const normalizedTarget = normalizeAngle(rocketAngleRef.current, targetAngle)
+
+      const nextAngle =
+        rocketAngleRef.current +
+        (normalizedTarget - rocketAngleRef.current) * rocketSmoothing
+
+      rocketAngleRef.current = nextAngle
+      setRocketAngle(nextAngle)
+    }
+
+    characterPositionRef.current = {
+      x: nextX,
+      y: nextY
+    }
+
+    setCharacterX(nextX)
+    setCharacterY(nextY)
+  }
 
   const startGame = () => {
     updateRoundCoef()
@@ -72,8 +116,14 @@ export const Crash = () => {
             startTimeRef.current = performance.now()
 
             setSvgPath(`M ${START_X} ${START_Y}`)
+            characterPositionRef.current = {
+              x: START_X,
+              y: START_Y
+            }
             setCharacterX(START_X)
             setCharacterY(START_Y)
+            rocketAngleRef.current = rocketOffset
+            setRocketAngle(rocketOffset)
 
             multiplierRef.current = 1.0
             setMultiplier(1.0)
@@ -137,8 +187,7 @@ export const Crash = () => {
 
       multiplierRef.current = nextMultiplier
       setMultiplier(nextMultiplier)
-      setCharacterX(currentX)
-      setCharacterY(currentY)
+      updateCharacterPosition(currentX, currentY)
       setSvgPath(prev => `${prev} L ${currentX} ${currentY}`)
       requestRef.current = requestAnimationFrame(updateGame)
       return
@@ -150,9 +199,8 @@ export const Crash = () => {
     const growthSpeed = 0.4
 
     const baseGrowth = 1.0 + (Math.exp(elapsed * 0.28) - 1) * growthSpeed
-    let currentMultiplier = +baseGrowth.toFixed(2)
-
-    if (currentMultiplier < 1.0) currentMultiplier = 1.0
+    const visualMultiplier = Math.max(1.0, baseGrowth)
+    const currentMultiplier = +visualMultiplier.toFixed(2)
 
     multiplierRef.current = currentMultiplier
     setMultiplier(currentMultiplier)
@@ -165,15 +213,9 @@ export const Crash = () => {
     }
 
     const currentX = START_X + Math.min(VIEW_WIDTH, elapsed * 55)
-    const currentY =
-      START_Y -
-      Math.min(
-        VIEW_HEIGHT,
-        Math.pow(Math.abs(currentMultiplier - 1.0), 0.75) * 35
-      )
+    const currentY = getYByMultiplier(visualMultiplier)
 
-    setCharacterX(currentX)
-    setCharacterY(currentY)
+    updateCharacterPosition(currentX, currentY)
     setSvgPath(prev => `${prev} L ${currentX} ${currentY}`)
 
     requestRef.current = requestAnimationFrame(updateGame)
@@ -232,8 +274,14 @@ export const Crash = () => {
     startTimeRef.current = null
 
     setSvgPath(`M ${START_X} ${START_Y}`)
+    characterPositionRef.current = {
+      x: START_X,
+      y: START_Y
+    }
     setCharacterX(START_X)
     setCharacterY(START_Y)
+    rocketAngleRef.current = rocketOffset
+    setRocketAngle(rocketOffset)
   }
 
   useEffect(() => {
@@ -250,195 +298,89 @@ export const Crash = () => {
   }, [startGame, cashOut, crashControlRef])
 
   return (
-    <div className='flex items-center justify-center p-6 text-foreground min-h-[550px]'>
+    <section className='flex w-full flex-col gap-6'>
+      <h2 className='typo-h2 text-[var(--neutral-0)]'>
+        Краш
+      </h2>
+
       <div
-        className={`w-full max-w-4xl rounded-xl h-auto border border-border bg-card p-6 shadow-md`}
+        className='relative h-[384px] w-full overflow-hidden rounded-[var(--radius-lg)] border border-[var(--brand-100)] p-8'
+        style={{
+          background:
+            'linear-gradient(0deg, rgba(17, 19, 24, 0.4), rgba(17, 19, 24, 0.4)), url("/crash-bg.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
       >
-        <div className='mb-4 space-y-1 text-center'>
-          <h2 className='text-2xl font-bold tracking-tight text-primary-foreground'>
-            КРАШ
-          </h2>
-          <p className='text-sm text-muted-foreground'>
-            САМАЯ ЧЕСТНАЯ МИНИ-ИГРА
+      {gameState === 'CASHED_OUT' && winAmount > 0 && (
+        <div className='pointer-events-none absolute left-1/2 top-[150px] z-30 flex -translate-x-1/2 flex-col items-center rounded-[var(--radius-md)] border border-[var(--brand-200)] bg-[rgba(17,19,24,0.72)] px-6 py-4 text-center backdrop-blur [box-shadow:0_0_12px_rgba(228,189,78,0.35)]'>
+          <p className='typo-xsmall text-[var(--neutral-0)]'>
+            НЕВОЗМОЖНО... ВЫ ВЫИГРАЛИ!!!
+          </p>
+
+          <p className='typo-h4 mt-1 text-[var(--brand-200)] [text-shadow:0_0_18px_rgba(228,189,78,0.25)]'>
+            +{winAmount.toLocaleString('ru-RU')} ₽
+          </p>
+
+          <p className='typo-2xsmall mt-1 text-[var(--neutral-400)]'>
+            Коэффициент ставки: {cashedOutMultiplier.toFixed(2)}x
           </p>
         </div>
+      )}
 
-        <div
-          style={{ height: `${VIEW_HEIGHT}px` }}
-          className='relative mb-6 h-full w-full overflow-hidden rounded-lg bg-muted border border-border flex items-center justify-center'
-        >
-          <svg
-            width={`${VIEW_WIDTH}`}
-            height={`${VIEW_HEIGHT}`}
-            className='absolute inset-0 w-full h-full select-none'
-          >
-            <defs>
-              <filter id='glow' x='-20%' y='-20%' width='140%' height='140%'>
-                <feGaussianBlur stdDeviation='4' result='blur' />
-                <feMerge>
-                  <feMergeNode in='blur' />
-                  <feMergeNode in='SourceGraphic' />
-                </feMerge>
-              </filter>
+      <svg
+        width={VIEW_WIDTH}
+        height={VIEW_HEIGHT}
+        viewBox={`0 0 ${VIEW_WIDTH} ${VIEW_HEIGHT}`}
+        className='absolute left-8 top-8 z-20 h-[320px] w-[calc(100%-64px)] select-none overflow-visible'
+      >
+        <defs>
+          <filter id='crashGlow' x='-20%' y='-20%' width='140%' height='140%'>
+            <feGaussianBlur stdDeviation='4' result='blur' />
+            <feMerge>
+              <feMergeNode in='blur' />
+              <feMergeNode in='SourceGraphic' />
+            </feMerge>
+          </filter>
+        </defs>
 
-              <pattern
-                id='grid-pattern'
-                width='40'
-                height='30'
-                patternUnits='userSpaceOnUse'
-              >
-                <path
-                  d='M 40 0 L 40 30 M 0 30 L 40 30'
-                  fill='none'
-                  stroke='rgba(255, 255, 255, 0.05)'
-                  strokeWidth='1'
-                />
-              </pattern>
-            </defs>
+        <path
+          d={svgPath}
+          fill='none'
+          stroke='var(--brand-200)'
+          strokeWidth='2'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          filter='url(#crashGlow)'
+        />
 
-            <rect width='100%' height='100%' fill='url(#grid-pattern)' />
+        <g transform={`translate(${characterX}, ${characterY}) rotate(${rocketAngle})`}>
+          <image
+            href='/rocket.png'
+            width='72'
+            height='72'
+            x='-36'
+            y='-72'
+          />
+        </g>
+      </svg>
 
-            <path
-              d={svgPath}
-              fill='none'
-              strokeWidth='4'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              filter='url(#glow)'
-              stroke={
-                gameState === 'CRASHING' || gameState === 'CRASHED'
-                  ? 'oklch(0.577 0.245 27.325)'
-                  : 'oklch(0.852 0.199 91.936)'
-              }
-            />
+      <div className='pointer-events-none absolute left-1/2 top-16 z-30 flex -translate-x-1/2 flex-col items-center'>
+        {gameState === 'CRASHED' ? (
+          <span className='typo-h2 text-destructive [text-shadow:0_0_18px_rgba(246,64,64,0.25)]'>
+            0.00x
+          </span>
+        ) : (
+          <span className='typo-h2 tabular-nums text-[var(--brand-200)] [text-shadow:0_0_18px_rgba(228,189,78,0.25)]'>
+            {multiplier.toFixed(2)}x
+          </span>
+        )}
 
-            <g
-              transform={`translate(${characterX}, ${characterY}) ${gameState === 'CRASHING' ? `rotate(${(performance.now() * 0.4) % 360})` : ''}`}
-              className={
-                gameState === 'CRASHING' || gameState === 'CRASHED'
-                  ? 'text-destructive'
-                  : 'text-foreground'
-              }
-            >
-              <g className={gameState === 'RUNNING' ? 'animate-pulse' : ''}>
-                <image
-                  href='/coin.png'
-                  width='32'
-                  height='32'
-                  x='-16'
-                  y='-16'
-                />
-              </g>
-            </g>
-          </svg>
-
-          <div className='absolute top-4 right-6 pointer-events-none select-none text-right'>
-            {gameState === 'CRASHED' ? (
-              <span className='text-4xl font-black text-destructive animate-bounce block'>
-                0.00x
-              </span>
-            ) : (
-              <span
-                className={`text-5xl font-black tabular-nums tracking-tighter transition-all duration-75 ${
-                  gameState === 'CRASHING'
-                    ? 'text-destructive'
-                    : 'text-secondary-foreground opacity-90'
-                }`}
-              >
-                {multiplier.toFixed(2)}x
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className='space-y-4'>
-          {gameState === 'CASHED_OUT' && (
-            <div className='rounded-lg bg-primary/20 border border-primary p-4 text-center text-primary-foreground animate-fade-in'>
-              <p className='text-sm font-medium'>
-                НЕВОЗМОЖНО... ВЫ ВЫЙГРАЛИ!!!
-              </p>
-              <p className='text-3xl font-extrabold mt-1'>+{winAmount} ₽</p>
-              <p className='text-xs text-muted-foreground mt-1'>
-                Коэффициент ставки: {cashedOutMultiplier}x
-              </p>
-            </div>
-          )}
-
-          {/* {gameState === 'IDLE' && (
-            <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2 rounded-lg bg-card p-3 border border-border/60 shadow-sm w-full'>
-              <div className='flex items-center space-x-2 bg-muted/40 px-3 py-2 rounded-md border border-border/40 select-none shrink-0'>
-                <input
-                  id='bonus-checkbox'
-                  type='checkbox'
-                  checked={useBonus}
-                  onChange={e => setUseBonus(e.target.checked)}
-                  className='h-4 w-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
-                />
-                <label
-                  htmlFor='bonus-checkbox'
-                  className='text-xs font-semibold uppercase tracking-wider text-muted-foreground cursor-pointer disabled:opacity-50'
-                >
-                  БОНУСЫ
-                </label>
-              </div> */}
-          {/* 
-              <div className='relative flex-1'>
-                <label className='text-sm font-medium text-muted-foreground'>
-                  Ваша ставка (₽)
-                </label>
-                <input
-                  type='number'
-                  disabled={false}
-                  value={betInput}
-                  onChange={e => setBetInput(e.target.value)}
-                  className={`h-10 w-full rounded-md border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 transition-colors ${
-                    error
-                      ? 'border-destructive focus-visible:ring-destructive'
-                      : 'border-input'
-                  }`}
-                  placeholder='Введите сумму...'
-                  min='0'
-                />
-                {error && (
-                  <p className='text-xs font-medium text-destructive mt-1 animate-slide-down'>
-                    {error}
-                  </p>
-                )}
-              </div>
-            </div>
-          )} */}
-
-          {gameState === 'RUNNING' ? (
-            <button
-              onClick={cashOut}
-              className='inline-flex h-12 w-full items-center justify-center rounded-md bg-secondary px-4 text-base font-bold text-secondary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
-            >
-              ЗАБРАТЬ ДЕНЬГИ
-            </button>
-          ) : gameState === 'IDLE' ? (
-            <button
-              onClick={startGame}
-              className='inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-4 text-base font-bold text-primary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
-            >
-              ПРОЕБАТЬ ДЕНЬГИ
-            </button>
-          ) : gameState === 'CRASHING' ? (
-            <button
-              disabled={true}
-              className='disabled inline-flex h-12 w-full items-center justify-center rounded-md bg-secondary px-4 text-base font-bold text-secondary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
-            >
-              Не получилось, не фортануло...
-            </button>
-          ) : (
-            <button
-              onClick={resetGame}
-              className='inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-4 text-base font-bold text-primary-foreground shadow-sm hover:opacity-90 cursor-pointer active:scale-[0.98] transition-transform'
-            >
-              СНОВА ПРОЕБАТЬ ДЕНЬГИ
-            </button>
-          )}
-        </div>
+        <span className='typo-2xsmall text-[var(--neutral-0)]'>
+          текущий выигрыш
+        </span>
       </div>
     </div>
-  )
+  </section>
+)
 }
