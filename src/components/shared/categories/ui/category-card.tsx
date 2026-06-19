@@ -49,14 +49,16 @@ const CategoryCardBody = ({
   return (
     <Card
       className={cn(
-        `relative overflow-hidden`,
+        `h-[288px] relative isolatew-full overflow-hidden`,
+        `rounded-[var(--radius-md)] border border-transparent`,
+        `[background:var(--gradient-card-background)] backdrop-blur`,
         className,
         href && 'transition-all duration-300 hover:scale-[1.02]'
       )}
     >
-      <CardHeader className='flex flex-col gap-4 z-20'>
-        <CardTitle className='text-lg font-semibold'>{title}</CardTitle>
-        <CardDescription className='line-clamp-2 min-h-10 md:max-w-[50%] text-sm text-muted-foreground leading-normal'>
+      <CardHeader className='relative flex flex-col gap-2 z-20'>
+        <CardTitle className='typo-h6 text-[var(--neutral-0)]'>{title}</CardTitle>
+        <CardDescription className='typo-small line-clamp-2 min-h-10 md:max-w-[168px] text-[var(--neutral-400)]'>
           {description}
         </CardDescription>
       </CardHeader>
@@ -66,10 +68,10 @@ const CategoryCardBody = ({
       <Image
         src={image}
         alt={title}
-        fill
-        sizes='(max-width: 768px) 100vw, 33vw'
+        width={220}
+        height={220}
         loading='eager'
-        className='z-10 object-contain object-bottom-right'
+        className='pointer-events-none absolute -right-[38px] -bottom-[59px] z-10 h-[222px] w-[222px] object-contain'
       />
       <CardContent>{}</CardContent>
     </Card>

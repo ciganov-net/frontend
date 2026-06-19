@@ -61,8 +61,8 @@ export function Profile() {
         </span>
       </div>
       <Button
-        variant='ghost'
-        size='icon'
+        variant='outline'
+        size='sm'
         disabled={isPending}
         onClick={() => mutate()}
       >

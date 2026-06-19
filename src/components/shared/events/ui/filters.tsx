@@ -94,7 +94,7 @@ export const EventFilers = ({
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <Button variant={'default'}>
+          <Button variant={'solid'} size={'medium'}>
             <Funnel />
           </Button>
         </SheetTrigger>

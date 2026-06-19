@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label'
 import { OddCard } from './odd-card'
 import { useBet } from '@/hooks/useBet'
 
+
 interface Props {
   className?: string
 }
@@ -13,7 +14,7 @@ export const PopularOdds = ({ className }: Props) => {
   const { addBet } = useBet()
   return (
     <div className={className}>
-      <Label className='text-lg font-bold'>Популярное сегодня</Label>
+      <Label className='typo-h5'>Популярное сегодня</Label>
       <div className='flex flex-col gap-4 my-4 w-full'>
         {events?.map(event => (
           <OddCard

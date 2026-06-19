@@ -13,15 +13,27 @@ export function SidebarItem({ route }: Props) {
   const pathname = usePathname()
   const isActive = pathname.includes(route.href)
   return (
-    <Button
-      className={cn('h-16 w-full relative', isActive && 'text-sidebar-primary')}
-      variant={'ghost'}
-      asChild
+    <Link
+      href={route.href}
+      data-active={isActive}
+      className={cn(
+        'flex h-[102.86px] w-full flex-col items-center justify-center gap-3 rounded-[var(--radius-xs)] border border-transparent px-3 py-2',
+        'text-[var(--neutral-0)] transition-all hover:border-[var(--brand-200)]',
+        isActive && ['border-transparent text-[var(--brand-200)] hover:border-transparent']
+      )}
     >
-      <Link href={route.href} className={'flex flex-col items-center mb-5'}>
-        <route.icon className={'mb-0 size-6'} />
+      <route.icon className={cn(
+        'size-6 shrink-0',
+        isActive && 'drop-shadow-[0_0_12px_rgba(228,189,78,0.5)]'
+      )}
+      />
+      <span className={cn(
+        'w-full text-center typo-xsmall',
+        isActive && 'text-shadow-gold'
+      )}
+      >
         {route.label}
-      </Link>
-    </Button>
+      </span>
+    </Link>
   )
 }

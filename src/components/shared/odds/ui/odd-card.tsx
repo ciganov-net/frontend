@@ -79,7 +79,7 @@ export const OddCard = ({ event, onSelectOutcome }: Props) => {
               </span>
 
               <Button
-                variant={isSelected ? 'default' : 'secondary'}
+                variant={isSelected ? 'solid' : 'outline'}
                 size='sm'
                 className='h-auto font-semibold font-mono px-3 py-1.5 text-base border border-transparent hover:border-border transition-all'
                 onClick={() => {

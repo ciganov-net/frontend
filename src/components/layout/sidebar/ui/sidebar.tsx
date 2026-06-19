@@ -6,7 +6,9 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed left-0 z-50 pt-5 flex h-full flex-col transition-all duration-100 ease-in-out w-40'
+        'fixed left-0 top-0 z-50 flex h-screen w-[148px] flex-col',
+        'bg-[rgba(8,9,11,0.8)] px-6 py-8 backdrop-blur',
+        'transition-all duration-100 ease-in-out'
       )}
     >
       <SidebarNavigation />

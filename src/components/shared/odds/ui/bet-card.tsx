@@ -27,7 +27,11 @@ export const BetCard = ({ coefficient, outcome, title, outcomeId }: Props) => {
     <Card className='flex-1 w-full p-4'>
       <CardTitle className='flex flex-row gap-x-4 justify-between items-center'>
         <Label className='text-lg'>{title}</Label>
-        <Button variant={'ghost'} onClick={() => removeBet(outcomeId)}>
+        <Button
+          size={'medium'}
+          variant={'outline'}
+          onClick={() => removeBet(outcomeId)}
+        >
           <Trash />
         </Button>
       </CardTitle>

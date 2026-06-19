@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Inter } from 'next/font/google'
+import { Geist_Mono, Onest } from 'next/font/google'
 import '../styles/globals.css'
 import { cn } from '@/libs/tw-merge'
 import { SEO } from '@/constants/seo.constant'
@@ -12,11 +12,10 @@ import { useAuth } from '@/hooks/useAuth'
 
 if (!APP_CONFIG.baseUrl) throw new Error('APP_CONFIG.baseUrl should be defined')
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
+const onest = Onest({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-onest',
+  display: 'swap'
 })
 
 const geistMono = Geist_Mono({
@@ -52,10 +51,9 @@ export default function RootLayout({
         'h-full',
         'antialiased',
         'dark',
-        geistSans.variable,
+        onest.variable,
         geistMono.variable,
         'font-sans',
-        inter.variable
       )}
     >
       <body className='min-h-full flex flex-col'>

@@ -14,7 +14,7 @@ export const FreebetBanner = () => {
         Зарегистрируйтесь и получите 5000 руб на баланс
       </CardDescription>
       <CardContent>
-        <Button size={'lg'}>Зарегистрироваться</Button>
+        <Button size={'large'}>Зарегистрироваться</Button>
       </CardContent>
     </Card>
   )
