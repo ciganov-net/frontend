@@ -1,46 +1,79 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useGetMe } from '@/api/hooks/useGetMe'
 import { usePatchUser } from '@/api/hooks/usePatchUser'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useUploadAvatar } from '@/api/hooks/useUploadAvatar'
+import { getCiganovNet } from '@/api/generated/client'
 
 export function Profile() {
   const { data: user, isLoading } = useGetMe()
   const { mutate: patchUser, isPending } = usePatchUser()
+  const { mutateAsync: uploadAvatar } = useUploadAvatar()
 
   const [displayName, setDisplayName] = useState('')
   const [bio, setBio] = useState('')
   const [message, setMessage] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (!user) return
 
     setDisplayName(user.displayName ?? '')
     setBio(user.bio ?? '')
+
+    const loadAvatar = async () => {
+      if (!user.avatar) {
+        setAvatarUrl(null)
+        return
+      }
+
+      const res = await getCiganovNet().mediaControllerGetFile(user.avatar)
+      setAvatarUrl(res.data.url)
+    }
+
+    loadAvatar()
   }, [user])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setMessage('')
 
-    patchUser(
-      {
-        displayName,
-        bio
-      },
-      {
-        onSuccess: () => {
-          setMessage('Профиль сохранен')
-        },
-        onError: () => {
-          setMessage('Не удалось сохранить профиль')
-        }
+    let avatarFileId: string | undefined
+
+    if (file) {
+      const res = await uploadAvatar(file)
+      avatarFileId = res.fileId
+    }
+
+    const payload: any = {
+      displayName,
+      bio
+    }
+
+    if (avatarFileId) {
+      payload.avatar = avatarFileId
+    }
+
+    try {
+      await patchUser(payload)
+      setMessage('Профиль сохранен')
+
+      if (avatarFileId) {
+        const res = await getCiganovNet().mediaControllerGetFile(avatarFileId)
+        setAvatarUrl(res.data.url)
       }
-    )
+    } catch {
+      setMessage('Не удалось сохранить профиль')
+    }
   }
 
   if (isLoading) {
@@ -58,6 +91,30 @@ export function Profile() {
   return (
     <section className='flex w-full flex-col gap-6'>
       <h1 className='typo-h2 text-[var(--neutral-0)]'>Профиль</h1>
+
+      <div className="relative w-24 h-24">
+        <div
+          className="w-24 h-24 rounded-full overflow-hidden bg-gray-700 cursor-pointer"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          {avatarUrl ? (
+            <img src={avatarUrl} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-gray-600" />
+          )}
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const f = e.target.files?.[0]
+            if (f) setFile(f)
+          }}
+        />
+      </div>
 
       <form
         onSubmit={handleSubmit}

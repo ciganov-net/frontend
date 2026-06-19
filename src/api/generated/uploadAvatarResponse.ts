@@ -6,10 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface PatchUserRequest {
-  displayName?: string;
-  bio?: string;
-  successRate?: number;
-  loseAmount?: number;
-  avatar?: string;
+export interface UploadAvatarResponse {
+  fileId: string;
 }

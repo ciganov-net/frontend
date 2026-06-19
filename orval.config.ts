@@ -2,7 +2,7 @@ import { defineConfig } from 'orval'
 
 export default defineConfig({
   client: {
-    input: 'http://localhost:3000/openapi.yaml',
+    input: 'https://ciganov.net/api/openapi.json',
     output: {
       schemas: './src/api/generated',
       target: './src/api/generated/client.ts',
